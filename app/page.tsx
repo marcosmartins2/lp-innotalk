@@ -11,7 +11,8 @@ import CTAForm from "@/components/CTAForm";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 
-export default function Home() {
+export default function Home()
+{
   return (
     <div className="min-h-screen">
       <Header />
