@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
 
 export default function CTAForm()
 {
@@ -12,12 +13,67 @@ export default function CTAForm()
         company: "",
         volume: "",
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
-    const handleSubmit = (e: React.FormEvent) =>
+    const handleSubmit = async (e: React.FormEvent) =>
     {
         e.preventDefault();
-        // Handle form submission
-        console.log("Form submitted:", formData);
+        setIsSubmitting(true);
+        setSubmitStatus("idle");
+
+        try
+        {
+            // Configurações do EmailJS
+            // Você precisa criar uma conta em https://www.emailjs.com/
+            // e configurar seu SERVICE_ID, TEMPLATE_ID e PUBLIC_KEY
+            const templateParams = {
+                to_email: "suporte@innotalk.com.br",
+                from_name: formData.name,
+                from_email: formData.email,
+                whatsapp: formData.whatsapp,
+                company: formData.company || "Não informado",
+                volume: formData.volume || "Não informado",
+                message: `
+                    Nova inscrição no Beta da InnoTalk!
+                    
+                    Nome: ${formData.name}
+                    Email: ${formData.email}
+                    WhatsApp: ${formData.whatsapp}
+                    Empresa: ${formData.company || "Não informado"}
+                    Volume mensal: ${formData.volume || "Não informado"}
+                `
+            };
+
+            await emailjs.send(
+                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
+                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID",
+                templateParams,
+                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
+            );
+
+            setSubmitStatus("success");
+            setFormData({
+                name: "",
+                whatsapp: "",
+                email: "",
+                company: "",
+                volume: "",
+            });
+
+            // Limpar mensagem de sucesso após 5 segundos
+            setTimeout(() => setSubmitStatus("idle"), 5000);
+        }
+        catch (error)
+        {
+            console.error("Erro ao enviar email:", error);
+            setSubmitStatus("error");
+            setTimeout(() => setSubmitStatus("idle"), 5000);
+        }
+        finally
+        {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -159,13 +215,37 @@ export default function CTAForm()
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             type="submit"
-                            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-4 rounded-lg transition-colors flex items-center justify-center gap-2 text-base"
+                            disabled={isSubmitting}
+                            className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-black font-semibold py-4 rounded-lg transition-colors flex items-center justify-center gap-2 text-base"
                         >
-                            Quero participar do Beta
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                            {isSubmitting ? "Enviando..." : "Quero participar do Beta"}
+                            {!isSubmitting && (
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            )}
                         </motion.button>
+
+                        {/* Status Messages */}
+                        {submitStatus === "success" && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 px-4 py-3 rounded-lg text-sm text-center"
+                            >
+                                ✓ Inscrição enviada com sucesso! Entraremos em contato em breve.
+                            </motion.div>
+                        )}
+
+                        {submitStatus === "error" && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="bg-red-500/20 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg text-sm text-center"
+                            >
+                                ✗ Erro ao enviar. Por favor, tente novamente ou entre em contato: suporte@innotalk.com.br
+                            </motion.div>
+                        )}
 
                         {/* Privacy Notice */}
                         <p className="text-gray-500 text-xs text-center">

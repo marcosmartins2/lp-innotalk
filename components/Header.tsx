@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Header()
 {
@@ -13,13 +14,15 @@ export default function Header()
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 {/* Logo */}
-                <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded-sm flex items-center justify-center">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 2L12 8L8 14L4 8L8 2Z" fill="white" />
-                        </svg>
-                    </div>
-                    <span className="text-xl font-semibold">InnoTalk</span>
+                <div className="flex items-center gap-3">
+                    <Image
+                        src="/LogoInnotalk.png"
+                        alt="InnoTalk"
+                        width={40}
+                        height={40}
+                        className="h-10 w-auto"
+                    />
+                    <span className="text-2xl font-playfair font-semibold tracking-tight">InnoTalk</span>
                 </div>
 
                 {/* Navigation */}
