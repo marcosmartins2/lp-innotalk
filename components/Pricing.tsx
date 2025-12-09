@@ -134,11 +134,12 @@ export default function Pricing()
                             </ul>
 
                             {/* CTA Button */}
-                            <button
-                                className={`w-full ${plan.buttonStyle} font-semibold py-3 rounded-lg transition-colors`}
+                            <a
+                                href="#formulario"
+                                className={`w-full ${plan.buttonStyle} font-semibold py-3 rounded-lg transition-colors block text-center`}
                             >
                                 {plan.buttonText}
-                            </button>
+                            </a>
                         </motion.div>
                     ))}
                 </div>

@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import VideoSection from "@/components/VideoSection";
+// import VideoSection from "@/components/VideoSection";
 import FeaturesFlow from "@/components/FeaturesFlow";
 import Benefits from "@/components/Benefits";
 import HowToStart from "@/components/HowToStart";
@@ -17,7 +17,7 @@ export default function Home()
     <div className="min-h-screen">
       <Header />
       <Hero />
-      <VideoSection />
+      {/* <VideoSection /> */}
       <FeaturesFlow />
       <Benefits />
       <HowToStart />

@@ -102,7 +102,7 @@ export default function CTAForm()
     };
 
     return (
-        <section className="bg-gradient-to-b from-black to-[#0a0f1e] py-20 px-6">
+        <section id="formulario" className="bg-gradient-to-b from-black to-[#0a0f1e] py-20 px-6 scroll-mt-20">
             <div className="max-w-2xl mx-auto">
                 {/* Heading */}
                 <div className="text-center mb-12">

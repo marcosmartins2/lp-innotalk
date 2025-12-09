@@ -91,12 +91,15 @@ export default function HowToStart()
 
                 {/* CTA Button */}
                 <div className="text-center">
-                    <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-4 rounded-lg transition-colors flex items-center gap-2 mx-auto text-base">
+                    <a
+                        href="#formulario"
+                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-4 rounded-lg transition-colors inline-flex items-center gap-2 text-base"
+                    >
                         Quero participar agora
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>

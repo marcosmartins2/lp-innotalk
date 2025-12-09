@@ -53,12 +53,15 @@ export default function Hero()
                     transition={{ duration: 0.8, delay: 0.6 }}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
-                    <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-3 rounded-lg transition-colors flex items-center gap-2 text-base w-full sm:w-auto">
+                    <a
+                        href="#formulario"
+                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-3 rounded-lg transition-colors flex items-center gap-2 text-base w-full sm:w-auto"
+                    >
                         Quero participar do Beta
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                    </button>
+                    </a>
                     <button className="bg-transparent hover:bg-white/5 text-white font-semibold px-8 py-3 rounded-lg border border-white/20 transition-colors text-base w-full sm:w-auto">
                         Ver como funciona
                     </button>
