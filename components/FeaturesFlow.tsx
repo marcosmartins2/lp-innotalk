@@ -66,7 +66,7 @@ export default function FeaturesFlow()
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <section className="bg-black py-20 px-6">
+        <section id="como-funciona" className="bg-black py-20 px-6 scroll-mt-20">
             <div className="max-w-7xl mx-auto">
                 {/* Heading */}
                 <div className="text-center mb-16">

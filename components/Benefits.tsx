@@ -77,7 +77,7 @@ export default function Benefits()
     ];
 
     return (
-        <section className="bg-black py-20 px-6">
+        <section id="beneficios" className="bg-black py-20 px-6 scroll-mt-20">
             <div className="max-w-7xl mx-auto">
                 {/* Heading */}
                 <div className="text-center mb-16">
