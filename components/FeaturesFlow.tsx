@@ -86,8 +86,8 @@ export default function FeaturesFlow()
                         <div
                             key={feature.id}
                             className={`relative bg-gradient-to-br from-gray-900 to-gray-950 rounded-2xl p-6 transition-all duration-300 cursor-pointer ${index === activeIndex
-                                    ? `border-2 ${feature.borderColor} shadow-xl scale-105`
-                                    : "border border-gray-800 hover:border-gray-700"
+                                ? `border-2 ${feature.borderColor} shadow-xl scale-105`
+                                : "border border-gray-800 hover:border-gray-700"
                                 }`}
                             onClick={() => setActiveIndex(index)}
                         >
@@ -121,8 +121,8 @@ export default function FeaturesFlow()
                             key={index}
                             onClick={() => setActiveIndex(index)}
                             className={`h-2 rounded-full transition-all duration-300 ${index === activeIndex
-                                    ? "bg-blue-500 w-8"
-                                    : "bg-gray-700 w-2 hover:bg-gray-600"
+                                ? "bg-blue-500 w-8"
+                                : "bg-gray-700 w-2 hover:bg-gray-600"
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
