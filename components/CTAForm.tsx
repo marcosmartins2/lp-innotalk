@@ -24,9 +24,6 @@ export default function CTAForm()
 
         try
         {
-            // Configurações do EmailJS
-            // Você precisa criar uma conta em https://www.emailjs.com/
-            // e configurar seu SERVICE_ID, TEMPLATE_ID e PUBLIC_KEY
             const templateParams = {
                 to_email: "suporte@innotalk.com.br",
                 from_name: formData.name,
@@ -61,7 +58,6 @@ export default function CTAForm()
                 volume: "",
             });
 
-            // Limpar mensagem de sucesso após 5 segundos
             setTimeout(() => setSubmitStatus("idle"), 5000);
         }
         catch (error)
@@ -102,17 +98,17 @@ export default function CTAForm()
     };
 
     return (
-        <section id="formulario" className="bg-gradient-to-b from-black to-[#0a0f1e] py-20 px-6 scroll-mt-20">
+        <section id="formulario" className="bg-gradient-to-b from-[#0D1424] to-[#0F172A] py-20 px-6 scroll-mt-20">
             <div className="max-w-2xl mx-auto">
                 {/* Heading */}
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                <div className="text-center mb-10">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
                         <span className="text-white">Pronto para </span>
                         <span className="text-blue-500">centralizar</span>
                         <br />
                         <span className="text-white">seu atendimento?</span>
                     </h2>
-                    <p className="text-gray-400 text-lg">
+                    <p className="text-gray-400 text-lg leading-relaxed">
                         Acesse a versão Beta e descubra o novo padrão de organização para o seu negócio.
                     </p>
                 </div>
@@ -123,13 +119,13 @@ export default function CTAForm()
                     whileInView="visible"
                     viewport={{ once: true, margin: "-50px" }}
                     variants={containerVariants}
-                    className="bg-gradient-to-br from-gray-900 to-gray-950 rounded-2xl p-8 border border-gray-800"
+                    className="glass-strong rounded-2xl p-8"
                 >
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-5">
                         {/* Nome completo */}
                         <motion.div variants={itemVariants}>
                             <label htmlFor="name" className="block text-white text-sm font-medium mb-2">
-                                Nome completo <span className="text-red-500">*</span>
+                                Nome completo <span className="text-red-400">*</span>
                             </label>
                             <input
                                 type="text"
@@ -139,14 +135,14 @@ export default function CTAForm()
                                 onChange={handleChange}
                                 placeholder="Seu nome"
                                 required
-                                className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                             />
                         </motion.div>
 
                         {/* WhatsApp */}
                         <motion.div variants={itemVariants}>
                             <label htmlFor="whatsapp" className="block text-white text-sm font-medium mb-2">
-                                WhatsApp <span className="text-red-500">*</span>
+                                WhatsApp <span className="text-red-400">*</span>
                             </label>
                             <input
                                 type="tel"
@@ -156,14 +152,14 @@ export default function CTAForm()
                                 onChange={handleChange}
                                 placeholder="(00) 00000-0000"
                                 required
-                                className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                             />
                         </motion.div>
 
                         {/* E-mail */}
                         <motion.div variants={itemVariants}>
                             <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
-                                E-mail <span className="text-red-500">*</span>
+                                E-mail <span className="text-red-400">*</span>
                             </label>
                             <input
                                 type="email"
@@ -173,7 +169,7 @@ export default function CTAForm()
                                 onChange={handleChange}
                                 placeholder="seu@email.com"
                                 required
-                                className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                             />
                         </motion.div>
 
@@ -189,7 +185,7 @@ export default function CTAForm()
                                 value={formData.company}
                                 onChange={handleChange}
                                 placeholder="Nome da sua empresa"
-                                className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                             />
                         </motion.div>
 
@@ -205,18 +201,18 @@ export default function CTAForm()
                                 value={formData.volume}
                                 onChange={handleChange}
                                 placeholder="Ex: 500 conversas/mês"
-                                className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                             />
                         </motion.div>
 
                         {/* Submit Button */}
                         <motion.button
                             variants={itemVariants}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-black font-semibold py-4 rounded-lg transition-colors flex items-center justify-center gap-2 text-base"
+                            className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-black font-semibold py-4 rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-yellow-400/20 flex items-center justify-center gap-2 text-base mt-6"
                         >
                             {isSubmitting ? "Enviando..." : "Quero participar do Beta"}
                             {!isSubmitting && (
@@ -231,7 +227,7 @@ export default function CTAForm()
                             <motion.div
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 px-4 py-3 rounded-lg text-sm text-center"
+                                className="bg-blue-500/20 border border-blue-500/30 text-blue-400 px-4 py-3 rounded-xl text-sm text-center"
                             >
                                 ✓ Inscrição enviada com sucesso! Entraremos em contato em breve.
                             </motion.div>
@@ -241,14 +237,14 @@ export default function CTAForm()
                             <motion.div
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-red-500/20 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg text-sm text-center"
+                                className="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl text-sm text-center"
                             >
                                 ✗ Erro ao enviar. Por favor, tente novamente ou entre em contato: suporte@innotalk.com.br
                             </motion.div>
                         )}
 
                         {/* Privacy Notice */}
-                        <p className="text-gray-500 text-xs text-center">
+                        <p className="text-gray-500 text-xs text-center pt-2">
                             Ao enviar este formulário, você concorda com nossa{" "}
                             <a href="#" className="text-blue-500 hover:text-blue-400 underline">
                                 Política de Privacidade

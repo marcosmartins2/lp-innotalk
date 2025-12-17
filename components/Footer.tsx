@@ -3,10 +3,10 @@ import Logo from "@/components/Logo";
 export default function Footer()
 {
     return (
-        <footer className="bg-black border-t border-blue-900 mt-16">
+        <footer className="bg-[#0F172A] border-t border-white/10">
             <div className="max-w-7xl mx-auto px-6 py-8 md:py-10">
                 {/* Linha superior */}
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-gray-800 pb-6">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-white/10 pb-6">
                     {/* Logo + texto */}
                     <div className="flex flex-col gap-1">
                         <Logo size="md" />
@@ -19,23 +19,23 @@ export default function Footer()
                     </div>
 
                     {/* Navegação */}
-                    <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-300">
-                        <a href="#como-funciona" className="hover:text-white">
+                    <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-400">
+                        <a href="#como-funciona" className="hover:text-white transition-colors">
                             Como Funciona
                         </a>
-                        <a href="#planos" className="hover:text-white">
+                        <a href="#planos" className="hover:text-white transition-colors">
                             Planos
                         </a>
-                        <a href="#faq" className="hover:text-white">
+                        <a href="#faq" className="hover:text-white transition-colors">
                             FAQ
                         </a>
-                        <a href="#lgpd" className="hover:text-white">
+                        <a href="#lgpd" className="hover:text-white transition-colors">
                             Política de Privacidade
                         </a>
-                        <a href="#lgpd" className="hover:text-white">
+                        <a href="#lgpd" className="hover:text-white transition-colors">
                             Termos de Uso
                         </a>
-                        <a href="#contato" className="hover:text-white">
+                        <a href="#contato" className="hover:text-white transition-colors">
                             Contato
                         </a>
                     </nav>
@@ -44,14 +44,14 @@ export default function Footer()
                 {/* Linha do meio: contato + LGPD */}
                 <div
                     id="contato"
-                    className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pt-4"
+                    className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pt-6"
                 >
                     <div className="text-xs text-gray-400 space-y-1">
                         <p>
                             Suporte e comercial:{' '}
                             <a
                                 href="mailto:contato@innotalk.com.br"
-                                className="text-blue-400 hover:text-blue-300"
+                                className="text-blue-400 hover:text-blue-300 transition-colors"
                             >
                                 contato@innotalk.com.br
                             </a>
@@ -62,7 +62,7 @@ export default function Footer()
                                 href="https://wa.me/5500000000000"
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-blue-400 hover:text-blue-300"
+                                className="text-blue-400 hover:text-blue-300 transition-colors"
                             >
                                 (00) 00000-0000
                             </a>
@@ -80,7 +80,7 @@ export default function Footer()
                 </div>
 
                 {/* Linha inferior: copyright */}
-                <div className="mt-6 pt-4 border-t border-gray-900 text-center text-xs text-gray-600">
+                <div className="mt-6 pt-4 border-t border-white/5 text-center text-xs text-gray-600">
                     © {new Date().getFullYear()} InnoTalk — Todos os direitos reservados.
                 </div>
             </div>

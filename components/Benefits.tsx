@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 
 export default function Benefits()
 {
@@ -13,8 +14,6 @@ export default function Benefits()
                     <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
-            iconColor: "text-emerald-500",
-            bgColor: "bg-emerald-500/10",
         },
         {
             title: "CRM Completo",
@@ -25,8 +24,6 @@ export default function Benefits()
                     <path d="M14 11C13.5705 10.4259 13.0226 9.9508 12.3934 9.60706C11.7642 9.26331 11.0685 9.05889 10.3533 9.00767C9.63819 8.95645 8.92037 9.05965 8.24861 9.31023C7.57685 9.5608 6.96684 9.95303 6.45996 10.46L3.45996 13.46C2.54917 14.403 2.04519 15.666 2.05659 16.977C2.06798 18.288 2.59382 19.5421 3.52086 20.4691C4.4479 21.3961 5.70197 21.922 7.01295 21.9334C8.32393 21.9448 9.58694 21.4408 10.53 20.53L12.24 18.82" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
-            iconColor: "text-blue-500",
-            bgColor: "bg-blue-500/10",
         },
         {
             title: "Agenda Integrada",
@@ -37,8 +34,6 @@ export default function Benefits()
                     <path d="M16 2V6M8 2V6M3 10H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
             ),
-            iconColor: "text-blue-400",
-            bgColor: "bg-blue-400/10",
         },
         {
             title: "Dashboard de Resultados",
@@ -48,8 +43,6 @@ export default function Benefits()
                     <path d="M18 20V10M12 20V4M6 20V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
-            iconColor: "text-purple-500",
-            bgColor: "bg-purple-500/10",
         },
         {
             title: "Configuração Rápida",
@@ -60,8 +53,6 @@ export default function Benefits()
                     <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
             ),
-            iconColor: "text-orange-500",
-            bgColor: "bg-orange-500/10",
         },
         {
             title: "Controle de Ganhos e Perdas",
@@ -71,25 +62,50 @@ export default function Benefits()
                     <path d="M12 2V22M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
-            iconColor: "text-green-500",
-            bgColor: "bg-green-500/10",
         },
     ];
 
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() =>
+    {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    const handleScroll = () =>
+    {
+        if (scrollRef.current && isMobile)
+        {
+            const scrollLeft = scrollRef.current.scrollLeft;
+            const cardWidth = scrollRef.current.offsetWidth * 0.75;
+            const newIndex = Math.round(scrollLeft / cardWidth);
+            setActiveIndex(Math.min(newIndex, benefits.length - 1));
+        }
+    };
+
     return (
-        <section id="beneficios" className="bg-black py-20 px-6 scroll-mt-20">
+        <section id="beneficios" className="bg-[#0D1424] py-20 px-6 scroll-mt-20">
             <div className="max-w-7xl mx-auto">
                 {/* Heading */}
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
                         <span className="text-white">Por que usar a </span>
                         <span className="text-blue-500">InnoTalk</span>
                         <span className="text-white">?</span>
                     </h2>
                 </div>
 
-                {/* Benefits Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Mobile Horizontal Scroll */}
+                <div
+                    ref={scrollRef}
+                    onScroll={handleScroll}
+                    className="md:hidden flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4 -mx-6 px-6"
+                >
                     {benefits.map((benefit, index) => (
                         <motion.div
                             key={index}
@@ -97,11 +113,51 @@ export default function Benefits()
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            whileHover={{ scale: 1.05 }}
-                            className="bg-gradient-to-br from-gray-900 to-gray-950 rounded-2xl p-8 border border-gray-800 hover:border-gray-700 transition-all duration-300"
+                            className="flex-shrink-0 w-[75%] snap-center glass-card rounded-2xl p-6 hover:bg-white/[0.06] transition-all duration-300"
                         >
-                            {/* Icon */}
-                            <div className={`w-16 h-16 ${benefit.bgColor} rounded-xl flex items-center justify-center mb-6 ${benefit.iconColor}`}>
+                            {/* Icon - Monochromatic Blue */}
+                            <div className="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-5 text-blue-500">
+                                {benefit.icon}
+                            </div>
+
+                            {/* Content */}
+                            <h3 className="text-white font-semibold text-lg mb-2">
+                                {benefit.title}
+                            </h3>
+                            <p className="text-gray-400 leading-relaxed text-sm">
+                                {benefit.description}
+                            </p>
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* Mobile Pagination Dots */}
+                <div className="md:hidden flex items-center justify-center gap-2 mt-4">
+                    {benefits.map((_, index) => (
+                        <div
+                            key={index}
+                            className={`h-1.5 rounded-full transition-all duration-300 ${index === activeIndex
+                                    ? "bg-blue-500 w-6"
+                                    : "bg-gray-700 w-1.5"
+                                }`}
+                        />
+                    ))}
+                </div>
+
+                {/* Desktop Grid */}
+                <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {benefits.map((benefit, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            whileHover={{ scale: 1.02, y: -5 }}
+                            className="glass-card rounded-2xl p-8 hover:bg-white/[0.06] transition-all duration-300"
+                        >
+                            {/* Icon - Monochromatic Blue */}
+                            <div className="w-16 h-16 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-500">
                                 {benefit.icon}
                             </div>
 

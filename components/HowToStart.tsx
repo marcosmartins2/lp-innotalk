@@ -10,7 +10,7 @@ export default function HowToStart()
             title: "Cadastre seu interesse no Beta",
             description: "Preencha o formulário e entre para a lista de espera exclusiva.",
             icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
@@ -20,7 +20,7 @@ export default function HowToStart()
             title: "Conecte seu número WhatsApp e sua conta Google",
             description: "Integração simples e rápida, sem complicação técnica.",
             icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
@@ -30,7 +30,7 @@ export default function HowToStart()
             title: "Gerencie conversas e agenda pelo painel da InnoTalk",
             description: "Tudo centralizado em uma interface intuitiva e poderosa.",
             icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
@@ -38,18 +38,18 @@ export default function HowToStart()
     ];
 
     return (
-        <section className="bg-black py-20 px-6">
+        <section className="bg-[#0F172A] py-20 px-6">
             <div className="max-w-4xl mx-auto">
                 {/* Heading */}
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
                         <span className="text-white">Comece em </span>
                         <span className="text-blue-500">poucos passos</span>
                     </h2>
                 </div>
 
                 {/* Steps */}
-                <div className="space-y-6 mb-12">
+                <div className="space-y-5 mb-12">
                     {steps.map((step, index) => (
                         <motion.div
                             key={index}
@@ -57,29 +57,29 @@ export default function HowToStart()
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, delay: index * 0.2 }}
-                            className="flex items-start gap-6"
+                            className="flex items-start gap-5"
                         >
                             {/* Number badge */}
                             <div className="flex-shrink-0">
-                                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/20">
                                     {step.number}
                                 </div>
                             </div>
 
                             {/* Content card */}
-                            <div className="flex-1 bg-gradient-to-br from-gray-900 to-gray-950 rounded-2xl p-6 border border-gray-800 hover:border-blue-500/50 transition-all duration-300">
+                            <div className="flex-1 glass-card rounded-2xl p-5 hover:bg-white/[0.06] transition-all duration-300">
                                 <div className="flex items-start gap-3">
-                                    {/* Check icon */}
-                                    <div className="flex-shrink-0 w-6 h-6 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-500 mt-1">
+                                    {/* Check icon - Blue monochromatic */}
+                                    <div className="flex-shrink-0 w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500 mt-0.5">
                                         {step.icon}
                                     </div>
 
                                     {/* Text content */}
                                     <div className="flex-1">
-                                        <h3 className="text-white font-semibold text-lg mb-2">
+                                        <h3 className="text-white font-semibold text-lg mb-1.5">
                                             {step.title}
                                         </h3>
-                                        <p className="text-gray-400 leading-relaxed">
+                                        <p className="text-gray-400 leading-relaxed text-sm">
                                             {step.description}
                                         </p>
                                     </div>
@@ -93,7 +93,7 @@ export default function HowToStart()
                 <div className="text-center">
                     <a
                         href="#formulario"
-                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-4 rounded-lg transition-colors inline-flex items-center gap-2 text-base"
+                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-yellow-400/20 inline-flex items-center gap-2 text-base"
                     >
                         Quero participar agora
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

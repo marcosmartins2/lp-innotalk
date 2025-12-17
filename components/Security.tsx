@@ -14,8 +14,6 @@ export default function Security()
                     <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
             ),
-            iconColor: "text-emerald-500",
-            bgColor: "bg-emerald-500/10",
         },
         {
             title: "Conformidade LGPD",
@@ -25,8 +23,6 @@ export default function Security()
                     <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
-            iconColor: "text-blue-500",
-            bgColor: "bg-blue-500/10",
         },
         {
             title: "Controle Total",
@@ -36,30 +32,28 @@ export default function Security()
                     <path d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
-            iconColor: "text-purple-500",
-            bgColor: "bg-purple-500/10",
         },
     ];
 
     return (
-        <section className="bg-black py-20 px-6">
+        <section className="bg-[#0D1424] py-20 px-6">
             <div className="max-w-6xl mx-auto">
                 {/* Icon and Heading */}
-                <div className="text-center mb-16">
-                    <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <div className="text-center mb-12">
+                    <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-blue-500">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
                         <span className="text-white">Privacidade e segurança em </span>
-                        <br />
+                        <br className="hidden md:block" />
                         <span className="text-blue-500">primeiro lugar</span>
                     </h2>
                 </div>
 
                 {/* Features Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                     {features.map((feature, index) => (
                         <motion.div
                             key={index}
@@ -69,8 +63,8 @@ export default function Security()
                             transition={{ duration: 0.5, delay: index * 0.15 }}
                             className="text-center"
                         >
-                            {/* Icon */}
-                            <div className={`w-16 h-16 ${feature.bgColor} rounded-2xl flex items-center justify-center mx-auto mb-4 ${feature.iconColor}`}>
+                            {/* Icon - Monochromatic Blue */}
+                            <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-500">
                                 {feature.icon}
                             </div>
 
@@ -91,7 +85,7 @@ export default function Security()
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6, delay: 0.5 }}
-                    className="bg-gradient-to-br from-gray-900 to-gray-950 rounded-2xl p-8 border border-gray-800"
+                    className="glass-card rounded-2xl p-8"
                 >
                     <p className="text-gray-300 text-center leading-relaxed mb-6">
                         A InnoTalk segue as diretrizes da LGPD e garante que apenas você controla seus contatos,

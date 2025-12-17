@@ -14,20 +14,20 @@ export default function FinalCTA()
                 className="max-w-4xl mx-auto text-center"
             >
                 {/* Heading */}
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                     Não perca a oportunidade de fazer parte do{" "}
                     <span className="text-yellow-400">futuro</span> do atendimento digital
                 </h2>
 
                 {/* Subheading */}
-                <p className="text-blue-100 text-lg mb-10">
+                <p className="text-blue-100 text-lg mb-10 leading-relaxed">
                     Vagas limitadas para o Beta. Garanta sua participação agora.
                 </p>
 
                 {/* CTA Button */}
                 <a
                     href="#formulario"
-                    className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-4 rounded-lg transition-colors inline-flex items-center gap-2 text-base mb-12"
+                    className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-yellow-400/30 inline-flex items-center gap-2 text-base mb-12"
                 >
                     Garantir minha vaga no Beta
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,18 +35,18 @@ export default function FinalCTA()
                     </svg>
                 </a>
 
-                {/* Features */}
+                {/* Features - Monochromatic */}
                 <div className="flex flex-wrap items-center justify-center gap-8 text-white">
                     <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                        <div className="w-2 h-2 bg-white/60 rounded-full"></div>
                         <span className="text-sm">Configuração rápida</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                        <div className="w-2 h-2 bg-white/60 rounded-full"></div>
                         <span className="text-sm">Suporte dedicado</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <div className="w-2 h-2 bg-white/60 rounded-full"></div>
                         <span className="text-sm">Preço especial Beta</span>
                     </div>
                 </div>

@@ -17,8 +17,8 @@ export default function Pricing()
                 "Suporte via WhatsApp",
             ],
             buttonText: "Quero participar do Beta",
-            buttonStyle: "bg-blue-600 hover:bg-blue-700 text-white",
-            cardStyle: "border-gray-800",
+            buttonStyle: "bg-[#0F172A] hover:bg-[#1E293B] text-white border border-gray-700",
+            cardStyle: "bg-gray-50 border-gray-200 hover:shadow-xl hover:-translate-y-1",
             popular: false,
         },
         {
@@ -34,7 +34,7 @@ export default function Pricing()
             ],
             buttonText: "Quero participar do Beta",
             buttonStyle: "bg-yellow-400 hover:bg-yellow-500 text-black",
-            cardStyle: "border-blue-600",
+            cardStyle: "bg-gray-50 border-blue-500 shadow-lg shadow-blue-500/10 hover:shadow-xl hover:-translate-y-1",
             popular: true,
         },
         {
@@ -50,21 +50,21 @@ export default function Pricing()
                 "SLA garantido",
             ],
             buttonText: "Quero participar do Beta",
-            buttonStyle: "bg-blue-600 hover:bg-blue-700 text-white",
-            cardStyle: "border-gray-800",
+            buttonStyle: "bg-[#0F172A] hover:bg-[#1E293B] text-white border border-gray-700",
+            cardStyle: "bg-gray-50 border-gray-200 hover:shadow-xl hover:-translate-y-1",
             popular: false,
         },
     ];
 
     return (
-        <section className="bg-black py-20 px-6" id="planos">
+        <section className="bg-[#E2E8F0] py-20 px-6" id="planos">
             <div className="max-w-7xl mx-auto">
                 {/* Heading */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                        <span className="text-white">Planos de Acesso Beta — </span>
-                        <br />
-                        <span className="text-blue-500">exclusividade antecipada</span>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+                        <span className="text-gray-900">Planos de Acesso Beta — </span>
+                        <br className="hidden md:block" />
+                        <span className="text-blue-600">exclusividade antecipada</span>
                     </h2>
                 </div>
 
@@ -77,8 +77,7 @@ export default function Pricing()
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.6, delay: index * 0.15 }}
-                            whileHover={{ scale: 1.05, y: -5 }}
-                            className={`relative bg-gradient-to-br from-gray-900 to-gray-950 rounded-2xl p-8 border-2 ${plan.cardStyle} transition-all duration-300`}
+                            className={`relative rounded-2xl p-8 border-2 transition-all duration-300 cursor-pointer ${plan.cardStyle}`}
                         >
                             {/* Popular Badge */}
                             {plan.popular && (
@@ -90,23 +89,23 @@ export default function Pricing()
                             )}
 
                             {/* Plan Name */}
-                            <h3 className="text-white font-semibold text-2xl mb-6 text-center">
+                            <h3 className="text-gray-900 font-semibold text-2xl mb-6 text-center">
                                 {plan.name}
                             </h3>
 
                             {/* Price */}
                             <div className="text-center mb-8">
                                 {plan.pricePrefix ? (
-                                    <div className="text-white">
+                                    <div className="text-gray-900">
                                         <span className="text-lg">{plan.pricePrefix}</span>
                                         <span className="text-4xl font-bold">{plan.price}</span>
-                                        <span className="text-gray-400 text-sm">{plan.period}</span>
+                                        <span className="text-gray-500 text-sm">{plan.period}</span>
                                     </div>
                                 ) : (
-                                    <div className="text-white">
+                                    <div className="text-gray-900">
                                         <span className="text-xl">R$ </span>
                                         <span className="text-5xl font-bold">{plan.price}</span>
-                                        <span className="text-gray-400 text-lg">{plan.period}</span>
+                                        <span className="text-gray-500 text-lg">{plan.period}</span>
                                     </div>
                                 )}
                             </div>
@@ -116,7 +115,7 @@ export default function Pricing()
                                 {plan.features.map((feature, featureIndex) => (
                                     <li key={featureIndex} className="flex items-start gap-3">
                                         <svg
-                                            className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5"
+                                            className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -128,7 +127,7 @@ export default function Pricing()
                                                 d="M5 13l4 4L19 7"
                                             />
                                         </svg>
-                                        <span className="text-gray-300 text-sm">{feature}</span>
+                                        <span className="text-gray-600 text-sm">{feature}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -136,7 +135,7 @@ export default function Pricing()
                             {/* CTA Button */}
                             <a
                                 href="#formulario"
-                                className={`w-full ${plan.buttonStyle} font-semibold py-3 rounded-lg transition-colors block text-center`}
+                                className={`w-full ${plan.buttonStyle} font-semibold py-3 rounded-full transition-all duration-200 block text-center`}
                             >
                                 {plan.buttonText}
                             </a>

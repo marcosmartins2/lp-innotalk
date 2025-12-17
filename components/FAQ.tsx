@@ -39,11 +39,11 @@ export default function FAQ()
     };
 
     return (
-        <section className="bg-black py-20 px-6" id="faq">
+        <section className="bg-[#0F172A] py-20 px-6" id="faq">
             <div className="max-w-4xl mx-auto">
                 {/* Heading */}
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
                         <span className="text-white">Perguntas </span>
                         <span className="text-blue-500">Frequentes</span>
                     </h2>
@@ -53,21 +53,21 @@ export default function FAQ()
                 </div>
 
                 {/* FAQ Items */}
-                <div className="space-y-4">
+                <div className="space-y-3">
                     {faqs.map((faq, index) => (
                         <div
                             key={index}
-                            className="bg-gradient-to-br from-gray-900 to-gray-950 rounded-2xl border border-gray-800 overflow-hidden transition-all duration-300 hover:border-gray-700"
+                            className="glass-card rounded-xl overflow-hidden transition-all duration-300 hover:bg-white/[0.06]"
                         >
                             <button
                                 onClick={() => toggleFAQ(index)}
-                                className="w-full px-6 py-5 flex items-center justify-between text-left transition-colors hover:bg-gray-800/50"
+                                className="w-full px-6 py-5 flex items-center justify-between text-left transition-colors"
                             >
-                                <span className="text-white font-semibold text-lg pr-4">
+                                <span className="text-white font-medium text-base pr-4">
                                     {faq.question}
                                 </span>
                                 <svg
-                                    className={`w-6 h-6 text-gray-400 flex-shrink-0 transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""
+                                    className={`w-5 h-5 text-blue-500 flex-shrink-0 transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""
                                         }`}
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -85,7 +85,7 @@ export default function FAQ()
                                 className={`overflow-hidden transition-all duration-300 ${openIndex === index ? "max-h-96" : "max-h-0"
                                     }`}
                             >
-                                <div className="px-6 pb-5 text-gray-400 leading-relaxed">
+                                <div className="px-6 pb-5 text-gray-400 leading-relaxed text-sm">
                                     {faq.answer}
                                 </div>
                             </div>
