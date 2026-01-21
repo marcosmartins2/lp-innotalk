@@ -1,8 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+
+// Form field error types
+type FormErrors = {
+    name?: string;
+    whatsapp?: string;
+    email?: string;
+};
+
+// Input field base styles
+const inputBaseStyles = "w-full bg-bg-dark/80 border rounded-lg px-md py-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-1 transition-all";
+const inputDefaultStyles = "border-border-subtle focus:border-accent-blue focus:ring-accent-blue";
+const inputErrorStyles = "border-red-500 focus:border-red-500 focus:ring-red-500";
 
 export default function CTAForm()
 {
@@ -13,14 +25,85 @@ export default function CTAForm()
         company: "",
         volume: "",
     });
+    const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+    // A11y: Track user's motion preference
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+    useEffect(() =>
+    {
+        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        setPrefersReducedMotion(mediaQuery.matches);
+
+        const handleChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+        mediaQuery.addEventListener("change", handleChange);
+        return () => mediaQuery.removeEventListener("change", handleChange);
+    }, []);
+
+    // Validation function
+    const validateForm = (): boolean =>
+    {
+        const newErrors: FormErrors = {};
+
+        // Name validation
+        if (!formData.name.trim())
+        {
+            newErrors.name = "Nome é obrigatório";
+        }
+        else if (formData.name.trim().length < 2)
+        {
+            newErrors.name = "Nome deve ter pelo menos 2 caracteres";
+        }
+
+        // WhatsApp validation
+        const whatsappClean = formData.whatsapp.replace(/\D/g, "");
+        if (!whatsappClean)
+        {
+            newErrors.whatsapp = "WhatsApp é obrigatório";
+        }
+        else if (whatsappClean.length < 10 || whatsappClean.length > 11)
+        {
+            newErrors.whatsapp = "WhatsApp deve ter 10 ou 11 dígitos";
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!formData.email.trim())
+        {
+            newErrors.email = "E-mail é obrigatório";
+        }
+        else if (!emailRegex.test(formData.email))
+        {
+            newErrors.email = "E-mail inválido";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    // Clear field error on change
+    const clearFieldError = (field: keyof FormErrors) =>
+    {
+        if (errors[field])
+        {
+            setErrors(prev => ({ ...prev, [field]: undefined }));
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) =>
     {
         e.preventDefault();
-        setIsSubmitting(true);
         setSubmitStatus("idle");
+
+        // Validate before submitting
+        if (!validateForm())
+        {
+            return;
+        }
+
+        setIsSubmitting(true);
 
         try
         {
@@ -33,7 +116,7 @@ export default function CTAForm()
                 volume: formData.volume || "Não informado",
                 message: `
                     Nova inscrição no Beta da InnoTalk!
-                    
+
                     Nome: ${formData.name}
                     Email: ${formData.email}
                     WhatsApp: ${formData.whatsapp}
@@ -57,6 +140,7 @@ export default function CTAForm()
                 company: "",
                 volume: "",
             });
+            setErrors({});
 
             setTimeout(() => setSubmitStatus("idle"), 5000);
         }
@@ -74,41 +158,49 @@ export default function CTAForm()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+        clearFieldError(name as keyof FormErrors);
     };
 
+    // Animation variants with reduced motion support
+    const duration = prefersReducedMotion ? 0 : 0.5;
+
     const containerVariants = {
-        hidden: { opacity: 0, y: 30 },
+        hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 30 },
         visible: {
             opacity: 1,
             y: 0,
             transition: {
-                duration: 0.6,
-                staggerChildren: 0.1
+                duration,
+                staggerChildren: prefersReducedMotion ? 0 : 0.08
             }
         }
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, x: -20 },
-        visible: { opacity: 1, x: 0 }
+        hidden: { opacity: 0, x: prefersReducedMotion ? 0 : -20 },
+        visible: { opacity: 1, x: 0, transition: { duration } }
     };
 
     return (
-        <section id="formulario" className="bg-gradient-to-b from-[#0D1424] to-[#0F172A] py-20 px-6 scroll-mt-20">
+        <section
+            id="formulario"
+            aria-labelledby="form-heading"
+            className="bg-gradient-to-b from-bg-dark-tertiary to-bg-dark py-2xl px-md scroll-mt-xl"
+        >
             <div className="max-w-2xl mx-auto">
                 {/* Heading */}
-                <div className="text-center mb-10">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                        <span className="text-white">Pronto para </span>
-                        <span className="text-blue-500">centralizar</span>
-                        <br />
-                        <span className="text-white">seu atendimento?</span>
+                <div className="text-center mb-xl">
+                    <h2
+                        id="form-heading"
+                        className="text-3xl md:text-4xl lg:text-5xl font-bold mb-lg leading-tight"
+                    >
+                        <span className="text-text-primary">Pronto para </span>
+                        <span className="text-accent-blue">centralizar</span>
+                        <span className="text-text-primary block sm:inline"> seu atendimento?</span>
                     </h2>
-                    <p className="text-gray-400 text-lg leading-relaxed">
+                    <p className="text-text-secondary text-lg leading-relaxed">
                         Acesse a versão Beta e descubra o novo padrão de organização para o seu negócio.
                     </p>
                 </div>
@@ -119,13 +211,14 @@ export default function CTAForm()
                     whileInView="visible"
                     viewport={{ once: true, margin: "-50px" }}
                     variants={containerVariants}
-                    className="glass-strong rounded-2xl p-8"
+                    className="glass-strong rounded-xl p-lg"
                 >
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                         {/* Nome completo */}
                         <motion.div variants={itemVariants}>
-                            <label htmlFor="name" className="block text-white text-sm font-medium mb-2">
-                                Nome completo <span className="text-red-400">*</span>
+                            <label htmlFor="name" className="block text-text-primary text-sm font-medium mb-2">
+                                Nome completo <span className="text-red-400" aria-hidden="true">*</span>
+                                <span className="sr-only">(obrigatório)</span>
                             </label>
                             <input
                                 type="text"
@@ -134,15 +227,25 @@ export default function CTAForm()
                                 value={formData.name}
                                 onChange={handleChange}
                                 placeholder="Seu nome"
-                                required
-                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                                autoComplete="name"
+                                aria-required="true"
+                                aria-invalid={!!errors.name}
+                                aria-describedby={errors.name ? "name-error" : undefined}
+                                className={`${inputBaseStyles} ${errors.name ? inputErrorStyles : inputDefaultStyles}`}
                             />
+                            {/* A11y: Error message with aria connection */}
+                            {errors.name && (
+                                <p id="name-error" className="text-red-400 text-sm mt-1" role="alert">
+                                    {errors.name}
+                                </p>
+                            )}
                         </motion.div>
 
                         {/* WhatsApp */}
                         <motion.div variants={itemVariants}>
-                            <label htmlFor="whatsapp" className="block text-white text-sm font-medium mb-2">
-                                WhatsApp <span className="text-red-400">*</span>
+                            <label htmlFor="whatsapp" className="block text-text-primary text-sm font-medium mb-2">
+                                WhatsApp <span className="text-red-400" aria-hidden="true">*</span>
+                                <span className="sr-only">(obrigatório)</span>
                             </label>
                             <input
                                 type="tel"
@@ -151,15 +254,24 @@ export default function CTAForm()
                                 value={formData.whatsapp}
                                 onChange={handleChange}
                                 placeholder="(00) 00000-0000"
-                                required
-                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                                autoComplete="tel"
+                                aria-required="true"
+                                aria-invalid={!!errors.whatsapp}
+                                aria-describedby={errors.whatsapp ? "whatsapp-error" : undefined}
+                                className={`${inputBaseStyles} ${errors.whatsapp ? inputErrorStyles : inputDefaultStyles}`}
                             />
+                            {errors.whatsapp && (
+                                <p id="whatsapp-error" className="text-red-400 text-sm mt-1" role="alert">
+                                    {errors.whatsapp}
+                                </p>
+                            )}
                         </motion.div>
 
                         {/* E-mail */}
                         <motion.div variants={itemVariants}>
-                            <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
-                                E-mail <span className="text-red-400">*</span>
+                            <label htmlFor="email" className="block text-text-primary text-sm font-medium mb-2">
+                                E-mail <span className="text-red-400" aria-hidden="true">*</span>
+                                <span className="sr-only">(obrigatório)</span>
                             </label>
                             <input
                                 type="email"
@@ -168,14 +280,22 @@ export default function CTAForm()
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="seu@email.com"
-                                required
-                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                                autoComplete="email"
+                                aria-required="true"
+                                aria-invalid={!!errors.email}
+                                aria-describedby={errors.email ? "email-error" : undefined}
+                                className={`${inputBaseStyles} ${errors.email ? inputErrorStyles : inputDefaultStyles}`}
                             />
+                            {errors.email && (
+                                <p id="email-error" className="text-red-400 text-sm mt-1" role="alert">
+                                    {errors.email}
+                                </p>
+                            )}
                         </motion.div>
 
-                        {/* Empresa */}
+                        {/* Empresa (optional) */}
                         <motion.div variants={itemVariants}>
-                            <label htmlFor="company" className="block text-white text-sm font-medium mb-2">
+                            <label htmlFor="company" className="block text-text-primary text-sm font-medium mb-2">
                                 Empresa
                             </label>
                             <input
@@ -185,13 +305,14 @@ export default function CTAForm()
                                 value={formData.company}
                                 onChange={handleChange}
                                 placeholder="Nome da sua empresa"
-                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                                autoComplete="organization"
+                                className={`${inputBaseStyles} ${inputDefaultStyles}`}
                             />
                         </motion.div>
 
-                        {/* Volume mensal */}
+                        {/* Volume mensal (optional) */}
                         <motion.div variants={itemVariants}>
-                            <label htmlFor="volume" className="block text-white text-sm font-medium mb-2">
+                            <label htmlFor="volume" className="block text-text-primary text-sm font-medium mb-2">
                                 Volume mensal de conversas (estimado)
                             </label>
                             <input
@@ -201,52 +322,112 @@ export default function CTAForm()
                                 value={formData.volume}
                                 onChange={handleChange}
                                 placeholder="Ex: 500 conversas/mês"
-                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                                className={`${inputBaseStyles} ${inputDefaultStyles}`}
                             />
                         </motion.div>
 
                         {/* Submit Button */}
                         <motion.button
                             variants={itemVariants}
-                            whileHover={{ scale: 1.01 }}
-                            whileTap={{ scale: 0.99 }}
+                            whileHover={prefersReducedMotion ? {} : { scale: 1.01 }}
+                            whileTap={prefersReducedMotion ? {} : { scale: 0.99 }}
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-black font-semibold py-4 rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-yellow-400/20 flex items-center justify-center gap-2 text-base mt-6"
+                            aria-busy={isSubmitting}
+                            aria-disabled={isSubmitting}
+                            className="w-full bg-accent-yellow hover:bg-accent-yellow-hover disabled:bg-gray-600 disabled:cursor-not-allowed text-black font-semibold py-md rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-yellow-400/20 flex items-center justify-center gap-2 text-base mt-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
                         >
-                            {isSubmitting ? "Enviando..." : "Quero participar do Beta"}
-                            {!isSubmitting && (
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
+                            {isSubmitting ? (
+                                <span className="flex items-center gap-2">
+                                    {/* Loading spinner */}
+                                    <svg
+                                        className="animate-spin h-5 w-5"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        />
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                        />
+                                    </svg>
+                                    Enviando...
+                                </span>
+                            ) : (
+                                <>
+                                    Quero participar do Beta
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 20 20"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M7.5 15L12.5 10L7.5 5"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        />
+                                    </svg>
+                                </>
                             )}
                         </motion.button>
 
-                        {/* Status Messages */}
+                        {/* A11y: Status Messages with ARIA live regions */}
                         {submitStatus === "success" && (
                             <motion.div
-                                initial={{ opacity: 0, y: -10 }}
+                                initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-blue-500/20 border border-blue-500/30 text-blue-400 px-4 py-3 rounded-xl text-sm text-center"
+                                transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+                                role="alert"
+                                aria-live="polite"
+                                className="bg-green-500/20 border border-green-500/30 text-green-400 px-md py-sm rounded-lg text-sm text-center"
                             >
-                                ✓ Inscrição enviada com sucesso! Entraremos em contato em breve.
+                                <span aria-hidden="true">✓ </span>
+                                Inscrição realizada com sucesso! Entraremos em contato em breve.
                             </motion.div>
                         )}
 
                         {submitStatus === "error" && (
                             <motion.div
-                                initial={{ opacity: 0, y: -10 }}
+                                initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl text-sm text-center"
+                                transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+                                role="alert"
+                                aria-live="assertive"
+                                className="bg-red-500/20 border border-red-500/30 text-red-400 px-md py-sm rounded-lg text-sm text-center"
                             >
-                                ✗ Erro ao enviar. Por favor, tente novamente ou entre em contato: suporte@innotalk.com.br
+                                <span aria-hidden="true">✗ </span>
+                                Erro ao enviar. Por favor, tente novamente ou entre em contato:{" "}
+                                <a
+                                    href="mailto:suporte@innotalk.com.br"
+                                    className="underline hover:text-red-300"
+                                >
+                                    suporte@innotalk.com.br
+                                </a>
                             </motion.div>
                         )}
 
                         {/* Privacy Notice */}
-                        <p className="text-gray-500 text-xs text-center pt-2">
+                        <p className="text-text-muted text-xs text-center pt-2">
                             Ao enviar este formulário, você concorda com nossa{" "}
-                            <a href="#" className="text-blue-500 hover:text-blue-400 underline">
+                            <a
+                                href="/politica-privacidade"
+                                className="text-accent-blue hover:text-accent-blue-light underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue rounded"
+                            >
                                 Política de Privacidade
                             </a>
                             .
