@@ -7,14 +7,53 @@ import emailjs from "@emailjs/browser";
 export default function CTAForm()
 {
     const [formData, setFormData] = useState({
-        name: "",
-        whatsapp: "",
+        nomeEmpresa: "",
+        cpfCnpj: "",
+        telefone: "",
         email: "",
-        company: "",
-        volume: "",
+        nome: "",
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+    // Função para formatar CPF ou CNPJ
+    const formatCpfCnpj = (value: string) => {
+        const numbers = value.replace(/\D/g, "");
+        
+        if (numbers.length <= 11) {
+            // CPF: 000.000.000-00
+            return numbers
+                .replace(/(\d{3})(\d)/, "$1.$2")
+                .replace(/(\d{3})(\d)/, "$1.$2")
+                .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        } else {
+            // CNPJ: 00.000.000/0000-00
+            return numbers
+                .substring(0, 14)
+                .replace(/(\d{2})(\d)/, "$1.$2")
+                .replace(/(\d{3})(\d)/, "$1.$2")
+                .replace(/(\d{3})(\d)/, "$1/$2")
+                .replace(/(\d{4})(\d{1,2})$/, "$1-$2");
+        }
+    };
+
+    // Função para formatar telefone
+    const formatTelefone = (value: string) => {
+        const numbers = value.replace(/\D/g, "");
+        
+        if (numbers.length <= 10) {
+            // Telefone fixo: (00) 0000-0000
+            return numbers
+                .replace(/(\d{2})(\d)/, "($1) $2")
+                .replace(/(\d{4})(\d{1,4})$/, "$1-$2");
+        } else {
+            // Celular: (00) 00000-0000
+            return numbers
+                .substring(0, 11)
+                .replace(/(\d{2})(\d)/, "($1) $2")
+                .replace(/(\d{5})(\d{1,4})$/, "$1-$2");
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) =>
     {
@@ -26,19 +65,19 @@ export default function CTAForm()
         {
             const templateParams = {
                 to_email: "suporte@innotalk.com.br",
-                from_name: formData.name,
+                from_name: formData.nome,
                 from_email: formData.email,
-                whatsapp: formData.whatsapp,
-                company: formData.company || "Não informado",
-                volume: formData.volume || "Não informado",
+                nome_empresa: formData.nomeEmpresa,
+                cpf_cnpj: formData.cpfCnpj,
+                telefone: formData.telefone,
                 message: `
                     Nova inscrição no Beta da InnoTalk!
                     
-                    Nome: ${formData.name}
-                    Email: ${formData.email}
-                    WhatsApp: ${formData.whatsapp}
-                    Empresa: ${formData.company || "Não informado"}
-                    Volume mensal: ${formData.volume || "Não informado"}
+                    Nome da Empresa: ${formData.nomeEmpresa}
+                    CNPJ/CPF: ${formData.cpfCnpj}
+                    Telefone para contato: ${formData.telefone}
+                    Email para contato: ${formData.email}
+                    Nome (como gostaria de ser chamado): ${formData.nome}
                 `
             };
 
@@ -51,11 +90,11 @@ export default function CTAForm()
 
             setSubmitStatus("success");
             setFormData({
-                name: "",
-                whatsapp: "",
+                nomeEmpresa: "",
+                cpfCnpj: "",
+                telefone: "",
                 email: "",
-                company: "",
-                volume: "",
+                nome: "",
             });
 
             setTimeout(() => setSubmitStatus("idle"), 5000);
@@ -74,9 +113,19 @@ export default function CTAForm()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     {
+        const { name, value } = e.target;
+        let formattedValue = value;
+
+        // Aplicar máscaras
+        if (name === "cpfCnpj") {
+            formattedValue = formatCpfCnpj(value);
+        } else if (name === "telefone") {
+            formattedValue = formatTelefone(value);
+        }
+
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: formattedValue,
         });
     };
 
@@ -122,44 +171,63 @@ export default function CTAForm()
                     className="glass-strong rounded-2xl p-8"
                 >
                     <form onSubmit={handleSubmit} className="space-y-5">
-                        {/* Nome completo */}
+                        {/* Nome da Empresa */}
                         <motion.div variants={itemVariants}>
-                            <label htmlFor="name" className="block text-white text-sm font-medium mb-2">
-                                Nome completo <span className="text-red-400">*</span>
+                            <label htmlFor="nomeEmpresa" className="block text-white text-sm font-medium mb-2">
+                                Nome da Empresa <span className="text-red-400">*</span>
                             </label>
                             <input
                                 type="text"
-                                id="name"
-                                name="name"
-                                value={formData.name}
+                                id="nomeEmpresa"
+                                name="nomeEmpresa"
+                                value={formData.nomeEmpresa}
                                 onChange={handleChange}
-                                placeholder="Seu nome"
+                                placeholder="Nome da sua empresa"
                                 required
                                 className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                             />
                         </motion.div>
 
-                        {/* WhatsApp */}
+                        {/* CNPJ ou CPF */}
                         <motion.div variants={itemVariants}>
-                            <label htmlFor="whatsapp" className="block text-white text-sm font-medium mb-2">
-                                WhatsApp <span className="text-red-400">*</span>
+                            <label htmlFor="cpfCnpj" className="block text-white text-sm font-medium mb-2">
+                                CNPJ ou CPF <span className="text-red-400">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="cpfCnpj"
+                                name="cpfCnpj"
+                                value={formData.cpfCnpj}
+                                onChange={handleChange}
+                                placeholder="000.000.000-00 ou 00.000.000/0000-00"
+                                required
+                                maxLength={18}
+                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                            />
+                        </motion.div>
+
+                        {/* Telefone para contato */}
+                        <motion.div variants={itemVariants}>
+                            <label htmlFor="telefone" className="block text-white text-sm font-medium mb-2">
+                                Telefone para contato <span className="text-red-400">*</span>
                             </label>
                             <input
                                 type="tel"
-                                id="whatsapp"
-                                name="whatsapp"
-                                value={formData.whatsapp}
+                                id="telefone"
+                                name="telefone"
+                                value={formData.telefone}
                                 onChange={handleChange}
                                 placeholder="(00) 00000-0000"
                                 required
+                                maxLength={15}
                                 className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                             />
                         </motion.div>
 
-                        {/* E-mail */}
+                        {/* E-mail para contato */}
                         <motion.div variants={itemVariants}>
                             <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
-                                E-mail <span className="text-red-400">*</span>
+                                E-mail para contato <span className="text-red-400">*</span>
                             </label>
                             <input
                                 type="email"
@@ -173,34 +241,19 @@ export default function CTAForm()
                             />
                         </motion.div>
 
-                        {/* Empresa */}
+                        {/* Nome (como gostaria de ser chamado) */}
                         <motion.div variants={itemVariants}>
-                            <label htmlFor="company" className="block text-white text-sm font-medium mb-2">
-                                Empresa
+                            <label htmlFor="nome" className="block text-white text-sm font-medium mb-2">
+                                Nome <span className="text-gray-400 text-xs">(como gostaria de ser chamado)</span> <span className="text-red-400">*</span>
                             </label>
                             <input
                                 type="text"
-                                id="company"
-                                name="company"
-                                value={formData.company}
+                                id="nome"
+                                name="nome"
+                                value={formData.nome}
                                 onChange={handleChange}
-                                placeholder="Nome da sua empresa"
-                                className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
-                            />
-                        </motion.div>
-
-                        {/* Volume mensal */}
-                        <motion.div variants={itemVariants}>
-                            <label htmlFor="volume" className="block text-white text-sm font-medium mb-2">
-                                Volume mensal de conversas (estimado)
-                            </label>
-                            <input
-                                type="text"
-                                id="volume"
-                                name="volume"
-                                value={formData.volume}
-                                onChange={handleChange}
-                                placeholder="Ex: 500 conversas/mês"
+                                placeholder="Como podemos te chamar?"
+                                required
                                 className="w-full bg-[#0F172A]/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                             />
                         </motion.div>
