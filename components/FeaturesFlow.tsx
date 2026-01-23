@@ -85,7 +85,7 @@ export default function FeaturesFlow()
     };
 
     return (
-        <section id="como-funciona" className="bg-[#0F172A] py-20 px-6 scroll-mt-20">
+        <section id="como-funciona" className="bg-bg-dark py-20 px-6 scroll-mt-20">
             <div className="max-w-7xl mx-auto">
                 {/* Heading */}
                 <div className="text-center mb-12">

@@ -38,8 +38,8 @@ export default function Header()
                 {/* Navigation Pill */}
                 <nav
                     className={`flex items-center justify-between px-4 md:px-6 py-3 rounded-full transition-all duration-300 ${isScrolled
-                            ? "bg-[#0F172A]/90 backdrop-blur-xl border border-white/10 shadow-lg shadow-black/20"
-                            : "bg-[#0F172A]/70 backdrop-blur-lg border border-white/5"
+                            ? "bg-bg-dark/90 backdrop-blur-xl border border-white/10 shadow-lg shadow-black/20"
+                            : "bg-bg-dark/70 backdrop-blur-lg border border-white/5"
                         }`}
                 >
                     {/* Logo */}
@@ -111,7 +111,7 @@ export default function Header()
                             transition={{ duration: 0.2 }}
                             className="fixed top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-50 md:hidden"
                         >
-                            <div className="bg-[#1E293B]/95 backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-xl">
+                            <div className="bg-surface/95 backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-xl">
                                 <nav className="flex flex-col gap-2">
                                     {navLinks.map((link, index) => (
                                         <motion.a

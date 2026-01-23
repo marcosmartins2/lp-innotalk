@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function Hero()
 {
     return (
-        <section className="bg-gradient-to-b from-[#0F172A] via-[#0D1424] to-[#0F172A] min-h-screen flex items-center justify-center px-6 pt-28 pb-20">
+        <section className="bg-gradient-to-b from-bg-dark via-bg-darker to-bg-dark min-h-screen flex items-center justify-center px-6 pt-28 pb-20">
             <div className="max-w-5xl mx-auto text-center">
                 {/* Badge */}
                 <motion.div
