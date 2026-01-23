@@ -1,9 +1,19 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Logo from "@/components/Logo";
+import { fadeInUp, viewportConfig } from "@/lib/animations";
 
 export default function Footer()
 {
     return (
-        <footer className="bg-[#0F172A] border-t border-white/10">
+        <motion.footer
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportConfig}
+            className="bg-[#0F172A] border-t border-white/10"
+        >
             <div className="max-w-7xl mx-auto px-6 py-8 md:py-10">
                 {/* Linha superior */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-white/10 pb-6">
@@ -20,22 +30,22 @@ export default function Footer()
 
                     {/* Navegação */}
                     <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-400">
-                        <a href="#como-funciona" className="hover:text-white transition-colors">
+                        <a href="#como-funciona" className="hover:text-white transition-colors hover:underline underline-offset-4">
                             Como Funciona
                         </a>
-                        <a href="#planos" className="hover:text-white transition-colors">
+                        <a href="#planos" className="hover:text-white transition-colors hover:underline underline-offset-4">
                             Planos
                         </a>
-                        <a href="#faq" className="hover:text-white transition-colors">
+                        <a href="#faq" className="hover:text-white transition-colors hover:underline underline-offset-4">
                             FAQ
                         </a>
-                        <a href="#lgpd" className="hover:text-white transition-colors">
+                        <a href="#lgpd" className="hover:text-white transition-colors hover:underline underline-offset-4">
                             Política de Privacidade
                         </a>
-                        <a href="#lgpd" className="hover:text-white transition-colors">
+                        <a href="#lgpd" className="hover:text-white transition-colors hover:underline underline-offset-4">
                             Termos de Uso
                         </a>
-                        <a href="#contato" className="hover:text-white transition-colors">
+                        <a href="#contato" className="hover:text-white transition-colors hover:underline underline-offset-4">
                             Contato
                         </a>
                     </nav>
@@ -84,6 +94,6 @@ export default function Footer()
                     © {new Date().getFullYear()} InnoTalk — Todos os direitos reservados.
                 </div>
             </div>
-        </footer>
+        </motion.footer>
     );
 }

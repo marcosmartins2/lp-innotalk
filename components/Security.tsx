@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { fadeInUp, viewportConfig, getStaggerDelay } from "@/lib/animations";
 
 export default function Security()
 {
@@ -57,10 +58,11 @@ export default function Security()
                     {features.map((feature, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.5, delay: index * 0.15 }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={viewportConfig}
+                            variants={fadeInUp}
+                            transition={getStaggerDelay(index, 0.15)}
                             className="text-center"
                         >
                             {/* Icon - Monochromatic Blue */}
@@ -81,10 +83,11 @@ export default function Security()
 
                 {/* Description Box */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportConfig}
+                    variants={fadeInUp}
+                    transition={{ duration: 0.5, delay: 0.5 }}
                     className="glass-card rounded-2xl p-8"
                 >
                     <p className="text-gray-300 text-center leading-relaxed mb-6">

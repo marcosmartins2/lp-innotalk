@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { fadeInUp, viewportConfig, cardHover, getStaggerDelay } from "@/lib/animations";
 
 export default function Benefits()
 {
@@ -89,7 +90,7 @@ export default function Benefits()
     };
 
     return (
-        <section id="beneficios" className="bg-[#0D1424] py-20 px-6 scroll-mt-20">
+        <section id="beneficios" className="bg-bg-darker py-20 px-6 scroll-mt-20">
             <div className="max-w-7xl mx-auto">
                 {/* Heading */}
                 <div className="text-center mb-12">
@@ -109,10 +110,11 @@ export default function Benefits()
                     {benefits.map((benefit, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={viewportConfig}
+                            variants={fadeInUp}
+                            transition={getStaggerDelay(index)}
                             className="flex-shrink-0 w-[75%] snap-center glass-card rounded-2xl p-6 hover:bg-white/[0.06] transition-all duration-300"
                         >
                             {/* Icon - Monochromatic Blue */}
@@ -149,12 +151,13 @@ export default function Benefits()
                     {benefits.map((benefit, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            whileHover={{ scale: 1.02, y: -5 }}
-                            className="glass-card rounded-2xl p-8 hover:bg-white/[0.06] transition-all duration-300"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={viewportConfig}
+                            variants={fadeInUp}
+                            transition={getStaggerDelay(index)}
+                            whileHover={cardHover}
+                            className="glass-card rounded-2xl p-8 hover:bg-white/[0.06] hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300"
                         >
                             {/* Icon - Monochromatic Blue */}
                             <div className="w-16 h-16 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-500">

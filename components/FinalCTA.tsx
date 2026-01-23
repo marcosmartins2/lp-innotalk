@@ -1,16 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { fadeInUp, viewportConfig } from "@/lib/animations";
+import { ArrowIcon } from "@/components/icons";
+import { CTAButton } from "@/components/primitives";
 
 export default function FinalCTA()
 {
     return (
-        <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-20 px-6">
+        <section className="bg-gradient-to-br from-accent-blue-dark via-accent-blue-darker to-accent-blue-deepest py-20 px-6">
             <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8 }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportConfig}
+                variants={fadeInUp}
                 className="max-w-4xl mx-auto text-center"
             >
                 {/* Heading */}

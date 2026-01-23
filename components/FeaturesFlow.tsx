@@ -141,7 +141,7 @@ export default function FeaturesFlow()
                     {features.map((feature, index) => (
                         <div
                             key={feature.id}
-                            className={`relative glass-card rounded-2xl p-6 transition-all duration-300 cursor-pointer hover:bg-white/[0.06] ${index === activeIndex
+                            className={`relative glass-card rounded-2xl p-6 transition-all duration-300 cursor-pointer hover:bg-white/[0.06] hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/5 ${index === activeIndex
                                     ? "border-blue-500/50 shadow-lg shadow-blue-500/10 scale-105"
                                     : ""
                                 }`}
