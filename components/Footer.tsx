@@ -1,4 +1,5 @@
 import Logo from "@/components/Logo";
+import Link from "next/link";
 
 export default function Footer()
 {
@@ -29,12 +30,12 @@ export default function Footer()
                         <a href="#faq" className="hover:text-white transition-colors">
                             FAQ
                         </a>
-                        <a href="#lgpd" className="hover:text-white transition-colors">
+                        <Link href="/politica-privacidade" className="hover:text-white transition-colors">
                             Política de Privacidade
-                        </a>
-                        <a href="#lgpd" className="hover:text-white transition-colors">
+                        </Link>
+                        <Link href="/termos-uso" className="hover:text-white transition-colors">
                             Termos de Uso
-                        </a>
+                        </Link>
                         <a href="#contato" className="hover:text-white transition-colors">
                             Contato
                         </a>
