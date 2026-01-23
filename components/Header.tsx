@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "@/components/Logo";
+import { CTAButton } from "@/components/primitives";
 
 export default function Header()
 {
@@ -59,14 +60,19 @@ export default function Header()
                     </div>
 
                     {/* Desktop CTA Button */}
-                    <motion.a
-                        href="#formulario"
+                    <motion.div
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="hidden md:inline-flex bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-5 py-2 rounded-full transition-colors text-sm"
+                        className="hidden md:block"
                     >
-                        Participar do Beta
-                    </motion.a>
+                        <CTAButton
+                            href="#formulario"
+                            variant="primary"
+                            size="sm"
+                        >
+                            Participar do Beta
+                        </CTAButton>
+                    </motion.div>
 
                     {/* Mobile Hamburger Button */}
                     <button

@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ArrowIcon } from "@/components/icons";
+import { CTAButton } from "@/components/primitives";
 
 export default function Hero()
 {
@@ -51,21 +53,23 @@ export default function Hero()
                     transition={{ duration: 0.8, delay: 0.6 }}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
-                    <a
+                    <CTAButton
                         href="#formulario"
-                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-yellow-400/20 flex items-center gap-2 text-base w-full sm:w-auto justify-center"
+                        variant="primary"
+                        size="md"
+                        className="w-full sm:w-auto"
                     >
                         Quero participar do Beta
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </a>
-                    <a
+                        <ArrowIcon />
+                    </CTAButton>
+                    <CTAButton
                         href="#como-funciona"
-                        className="glass hover:bg-white/10 text-white font-semibold px-8 py-4 rounded-full transition-all duration-200 text-base w-full sm:w-auto text-center"
+                        variant="secondary"
+                        size="md"
+                        className="w-full sm:w-auto"
                     >
                         Ver como funciona
-                    </a>
+                    </CTAButton>
                 </motion.div>
             </div>
         </section>
