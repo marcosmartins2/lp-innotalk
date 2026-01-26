@@ -4,45 +4,66 @@ import { motion } from "framer-motion";
 import { ArrowIcon } from "@/components/icons";
 import { CTAButton } from "@/components/primitives";
 
-export default function Hero()
-{
+import { Tiles } from "@/components/Tiles";
+
+export default function Hero() {
     return (
-        <section className="bg-gradient-to-b from-bg-dark via-bg-darker to-bg-dark min-h-screen flex items-center justify-center px-6 pt-28 pb-20">
-            <div className="max-w-5xl mx-auto text-center">
+        <section className="relative min-h-[110vh] flex items-center justify-center px-6 pt-32 pb-20 overflow-hidden">
+            {/* Background Effects */}
+            <div className="absolute inset-0 z-0 bg-[#0D1117]">
+                {/* Tiles Background - Masked to fade out at bottom */}
+                <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none">
+                    <Tiles
+                        rows={30}
+                        cols={20}
+                        tileSize="lg"
+                        className="opacity-100"
+                        tileClassName="border-blue-500/10"
+                    />
+                </div>
+            </div>
+
+            <div className="relative z-10 max-w-5xl mx-auto text-center">
                 {/* Badge */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="inline-flex items-center gap-2 glass rounded-full px-5 py-2.5 mb-8"
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-10 border border-blue-500/20 shadow-[0_0_20px_-5px_rgba(59,130,246,0.3)] hover:border-blue-500/40 transition-colors cursor-default"
                 >
-                    <span className="text-blue-400 font-semibold text-sm">Versão Beta</span>
-                    <span className="text-gray-500 text-sm">•</span>
-                    <span className="text-gray-300 text-sm">Vagas limitadas</span>
+                    <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                    </span>
+                    <span className="text-blue-200 font-medium text-sm tracking-wide">Versão Beta Disponível</span>
+                    <span className="w-px h-3 bg-white/10 mx-1" />
+                    <span className="text-gray-400 text-sm">Vagas limitadas</span>
                 </motion.div>
 
-                {/* Heading - Reduced sizes for mobile */}
+                {/* Heading */}
                 <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.15] mb-8"
+                    transition={{ duration: 0.8, delay: 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 relative"
                 >
-                    <span className="text-white">Centralize seu</span>
+                    <span className="text-white drop-shadow-sm">Centralize seu</span>
                     <br />
-                    <span className="text-blue-500">atendimento e agenda</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400 animate-gradient-x bg-[length:200%_auto]">
+                        atendimento e agenda
+                    </span>
                     <br />
-                    <span className="text-white">diretamente pelo WhatsApp.</span>
+                    <span className="text-white/90">diretamente pelo WhatsApp.</span>
                 </motion.h1>
 
-                {/* Subheading - Improved line-height */}
+                {/* Subheading */}
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-12 leading-relaxed"
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    className="text-lg md:text-2xl text-slate-300 max-w-3xl mx-auto mb-14 leading-relaxed font-light"
                 >
-                    A InnoTalk conecta seu WhatsApp, CRM e Google Agenda em um único lugar.
+                    A InnoTalk conecta seu <span className="text-white font-medium">WhatsApp, CRM e Google Agenda</span> em um único lugar.
                     Organize conversas, leads e agendamentos de forma simples e automática.
                 </motion.p>
 
@@ -50,14 +71,14 @@ export default function Hero()
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.6 }}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    className="flex flex-col sm:flex-row items-center justify-center gap-5"
                 >
                     <CTAButton
                         href="#formulario"
                         variant="primary"
-                        size="md"
-                        className="w-full sm:w-auto"
+                        size="lg"
+                        className="w-full sm:w-auto min-w-[200px] shadow-[0_0_40px_-10px_rgba(250,204,21,0.3)] hover:shadow-[0_0_60px_-15px_rgba(250,204,21,0.4)]"
                     >
                         Quero participar do Beta
                         <ArrowIcon />
@@ -65,13 +86,23 @@ export default function Hero()
                     <CTAButton
                         href="#como-funciona"
                         variant="secondary"
-                        size="md"
-                        className="w-full sm:w-auto"
+                        size="lg"
+                        className="w-full sm:w-auto min-w-[200px]"
                     >
                         Ver como funciona
                     </CTAButton>
                 </motion.div>
             </div>
+
+            {/* Scroll Indicator */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1, duration: 1 }}
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+            >
+                <div className="w-[1px] h-16 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+            </motion.div>
         </section>
     );
 }
