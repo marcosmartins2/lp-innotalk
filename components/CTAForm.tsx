@@ -17,16 +17,19 @@ export default function CTAForm()
     const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
     // Função para formatar CPF ou CNPJ
-    const formatCpfCnpj = (value: string) => {
+    const formatCpfCnpj = (value: string) =>
+    {
         const numbers = value.replace(/\D/g, "");
-        
-        if (numbers.length <= 11) {
+
+        if (numbers.length <= 11)
+        {
             // CPF: 000.000.000-00
             return numbers
                 .replace(/(\d{3})(\d)/, "$1.$2")
                 .replace(/(\d{3})(\d)/, "$1.$2")
                 .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-        } else {
+        } else
+        {
             // CNPJ: 00.000.000/0000-00
             return numbers
                 .substring(0, 14)
@@ -38,15 +41,18 @@ export default function CTAForm()
     };
 
     // Função para formatar telefone
-    const formatTelefone = (value: string) => {
+    const formatTelefone = (value: string) =>
+    {
         const numbers = value.replace(/\D/g, "");
-        
-        if (numbers.length <= 10) {
+
+        if (numbers.length <= 10)
+        {
             // Telefone fixo: (00) 0000-0000
             return numbers
                 .replace(/(\d{2})(\d)/, "($1) $2")
                 .replace(/(\d{4})(\d{1,4})$/, "$1-$2");
-        } else {
+        } else
+        {
             // Celular: (00) 00000-0000
             return numbers
                 .substring(0, 11)
@@ -117,9 +123,11 @@ export default function CTAForm()
         let formattedValue = value;
 
         // Aplicar máscaras
-        if (name === "cpfCnpj") {
+        if (name === "cpfCnpj")
+        {
             formattedValue = formatCpfCnpj(value);
-        } else if (name === "telefone") {
+        } else if (name === "telefone")
+        {
             formattedValue = formatTelefone(value);
         }
 

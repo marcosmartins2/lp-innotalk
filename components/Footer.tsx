@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import Logo from "@/components/Logo";
 import Link from "next/link";
 
-export default function Footer() {
+export default function Footer()
+{
     const fadeInUp = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
     };
-    
+
     const viewportConfig = { once: true, margin: "-50px" };
 
     return (
