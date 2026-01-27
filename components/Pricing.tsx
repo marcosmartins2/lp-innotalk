@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { CheckIcon } from "@/components/icons";
 
 export default function Pricing()
 {
@@ -114,19 +115,10 @@ export default function Pricing()
                             <ul className="space-y-4 mb-8">
                                 {plan.features.map((feature, featureIndex) => (
                                     <li key={featureIndex} className="flex items-start gap-3">
-                                        <svg
+                                        <CheckIcon
                                             className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M5 13l4 4L19 7"
-                                            />
-                                        </svg>
+                                            variant="alt"
+                                        />
                                         <span className="text-gray-600 text-sm">{feature}</span>
                                     </li>
                                 ))}

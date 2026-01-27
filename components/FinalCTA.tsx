@@ -1,16 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { fadeInUp, viewportConfig } from "@/lib/animations";
+import { ArrowIcon } from "@/components/icons";
+import { CTAButton } from "@/components/primitives";
 
 export default function FinalCTA()
 {
     return (
-        <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-20 px-6">
+        <section className="bg-gradient-to-br from-accent-blue-dark via-accent-blue-darker to-accent-blue-deepest py-20 px-6">
             <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8 }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportConfig}
+                variants={fadeInUp}
                 className="max-w-4xl mx-auto text-center"
             >
                 {/* Heading */}
@@ -25,15 +28,15 @@ export default function FinalCTA()
                 </p>
 
                 {/* CTA Button */}
-                <a
+                <CTAButton
                     href="#formulario"
-                    className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-yellow-400/30 inline-flex items-center gap-2 text-base mb-12"
+                    variant="primary"
+                    size="md"
+                    className="mb-12 hover:shadow-yellow-400/30"
                 >
                     Garantir minha vaga no Beta
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </a>
+                    <ArrowIcon />
+                </CTAButton>
 
                 {/* Features - Monochromatic */}
                 <div className="flex flex-wrap items-center justify-center gap-8 text-white">

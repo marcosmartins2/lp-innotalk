@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, viewportConfig } from "@/lib/animations";
+import { ChevronIcon } from "@/components/icons";
 
-export default function FAQ()
-{
+export default function FAQ() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     const faqs = [
@@ -33,65 +35,70 @@ export default function FAQ()
         },
     ];
 
-    const toggleFAQ = (index: number) =>
-    {
+    const toggleFAQ = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
     return (
-        <section className="bg-[#0F172A] py-20 px-6" id="faq">
-            <div className="max-w-4xl mx-auto">
+        <section className="bg-transparent py-24 px-6 relative" id="faq">
+            <div className="max-w-4xl mx-auto relative z-10">
                 {/* Heading */}
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-                        <span className="text-white">Perguntas </span>
-                        <span className="text-blue-500">Frequentes</span>
+                <motion.div
+                    variants={fadeInUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportConfig}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight text-white">
+                        Perguntas Frequentes
                     </h2>
                     <p className="text-gray-400 text-lg">
                         Tudo o que você precisa saber sobre a InnoTalk
                     </p>
-                </div>
+                </motion.div>
 
                 {/* FAQ Items */}
-                <div className="space-y-3">
+                <motion.div
+                    variants={staggerContainer}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportConfig}
+                    className="space-y-4"
+                >
                     {faqs.map((faq, index) => (
-                        <div
+                        <motion.div
                             key={index}
-                            className="glass-card rounded-xl overflow-hidden transition-all duration-300 hover:bg-white/[0.06]"
+                            variants={staggerItem}
+                            className={`bg-[#161b22] border border-[#30363d] rounded-xl overflow-hidden transition-all duration-300 ${openIndex === index
+                                ? "border-blue-600 shadow-lg shadow-blue-900/20"
+                                : "hover:border-gray-600"
+                                }`}
                         >
                             <button
                                 onClick={() => toggleFAQ(index)}
-                                className="w-full px-6 py-5 flex items-center justify-between text-left transition-colors"
+                                className="w-full px-8 py-6 flex items-center justify-between text-left transition-all duration-200 focus-visible:outline-none"
                             >
-                                <span className="text-white font-medium text-base pr-4">
+                                <span className={`font-semibold text-lg pr-8 transition-colors ${openIndex === index ? "text-blue-400" : "text-white"
+                                    }`}>
                                     {faq.question}
                                 </span>
-                                <svg
-                                    className={`w-5 h-5 text-blue-500 flex-shrink-0 transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""
+                                <ChevronIcon
+                                    className={`w-6 h-6 flex-shrink-0 transition-all duration-300 ${openIndex === index ? "rotate-180 text-blue-400" : "text-gray-500"
                                         }`}
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M19 9l-7 7-7-7"
-                                    />
-                                </svg>
+                                />
                             </button>
                             <div
-                                className={`overflow-hidden transition-all duration-300 ${openIndex === index ? "max-h-96" : "max-h-0"
+                                className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                                     }`}
                             >
-                                <div className="px-6 pb-5 text-gray-400 leading-relaxed text-sm">
+                                <div className="px-8 pb-8 text-gray-300 leading-relaxed">
                                     {faq.answer}
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { viewportConfig } from "@/lib/animations";
 
 export default function VideoSection()
 {
@@ -11,8 +12,8 @@ export default function VideoSection()
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8 }}
+                    viewport={viewportConfig}
+                    transition={{ duration: 0.5 }}
                     className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 shadow-2xl border border-slate-700/50"
                 >
                     {/* Decorative corners */}

@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { CheckIcon, ArrowIcon } from "@/components/icons";
+import { CTAButton } from "@/components/primitives";
 
 export default function HowToStart()
 {
@@ -9,31 +11,16 @@ export default function HowToStart()
             number: "1",
             title: "Cadastre seu interesse no Beta",
             description: "Preencha o formulário e entre para a lista de espera exclusiva.",
-            icon: (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-            ),
         },
         {
             number: "2",
             title: "Conecte seu número WhatsApp e sua conta Google",
             description: "Integração simples e rápida, sem complicação técnica.",
-            icon: (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-            ),
         },
         {
             number: "3",
             title: "Gerencie conversas e agenda pelo painel da InnoTalk",
             description: "Tudo centralizado em uma interface intuitiva e poderosa.",
-            icon: (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-            ),
         },
     ];
 
@@ -67,11 +54,11 @@ export default function HowToStart()
                             </div>
 
                             {/* Content card */}
-                            <div className="flex-1 glass-card rounded-2xl p-5 hover:bg-white/[0.06] transition-all duration-300">
+                            <div className="flex-1 glass-card rounded-2xl p-5 hover:bg-white/[0.06] hover:-translate-y-0.5 transition-all duration-300">
                                 <div className="flex items-start gap-3">
                                     {/* Check icon - Blue monochromatic */}
                                     <div className="flex-shrink-0 w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500 mt-0.5">
-                                        {step.icon}
+                                        <CheckIcon width="20" height="20" />
                                     </div>
 
                                     {/* Text content */}
@@ -91,15 +78,14 @@ export default function HowToStart()
 
                 {/* CTA Button */}
                 <div className="text-center">
-                    <a
+                    <CTAButton
                         href="#formulario"
-                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-yellow-400/20 inline-flex items-center gap-2 text-base"
+                        variant="primary"
+                        size="md"
                     >
                         Quero participar agora
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </a>
+                        <ArrowIcon />
+                    </CTAButton>
                 </div>
             </div>
         </section>

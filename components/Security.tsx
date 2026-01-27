@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { fadeInUp, viewportConfig, getStaggerDelay } from "@/lib/animations";
 
-export default function Security()
-{
+export default function Security() {
     const features = [
         {
             title: "Criptografia Total",
@@ -40,11 +40,6 @@ export default function Security()
             <div className="max-w-6xl mx-auto">
                 {/* Icon and Heading */}
                 <div className="text-center mb-12">
-                    <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-blue-500">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </div>
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
                         <span className="text-white">Privacidade e segurança em </span>
                         <br className="hidden md:block" />
@@ -57,10 +52,11 @@ export default function Security()
                     {features.map((feature, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.5, delay: index * 0.15 }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={viewportConfig}
+                            variants={fadeInUp}
+                            transition={getStaggerDelay(index, 0.15)}
                             className="text-center"
                         >
                             {/* Icon - Monochromatic Blue */}
@@ -81,10 +77,11 @@ export default function Security()
 
                 {/* Description Box */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportConfig}
+                    variants={fadeInUp}
+                    transition={{ duration: 0.5, delay: 0.5 }}
                     className="glass-card rounded-2xl p-8"
                 >
                     <p className="text-gray-300 text-center leading-relaxed mb-6">

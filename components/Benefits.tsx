@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { fadeInUp, viewportConfig, cardHover, getStaggerDelay } from "@/lib/animations";
 
-export default function Benefits()
-{
+export default function Benefits() {
     const benefits = [
         {
             title: "WhatsApp Conectado",
@@ -59,7 +59,7 @@ export default function Benefits()
             description: "Acompanha negociações fechadas, em andamento e perdidas, com visão clara de receita.",
             icon: (
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2V22M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M12 2V22M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 12 14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ),
         },
@@ -69,18 +69,15 @@ export default function Benefits()
     const [activeIndex, setActiveIndex] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
         window.addEventListener("resize", checkMobile);
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
-    const handleScroll = () =>
-    {
-        if (scrollRef.current && isMobile)
-        {
+    const handleScroll = () => {
+        if (scrollRef.current && isMobile) {
             const scrollLeft = scrollRef.current.scrollLeft;
             const cardWidth = scrollRef.current.offsetWidth * 0.75;
             const newIndex = Math.round(scrollLeft / cardWidth);
@@ -89,34 +86,35 @@ export default function Benefits()
     };
 
     return (
-        <section id="beneficios" className="bg-[#0D1424] py-20 px-6 scroll-mt-20">
-            <div className="max-w-7xl mx-auto">
+        <section id="beneficios" className="bg-bg-default py-24 px-6 relative overflow-hidden">
+            {/* Background glow for section */}
+            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-[100px] pointer-events-none" />
+
+            <div className="max-w-7xl mx-auto relative z-10">
                 {/* Heading */}
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
                         <span className="text-white">Por que usar a </span>
-                        <span className="text-blue-500">InnoTalk</span>
+                        <span className="text-gradient-blue">InnoTalk</span>
                         <span className="text-white">?</span>
                     </h2>
+                    <p className="text-slate-400 text-lg">Tudo o que você precisa para escalar seu atendimento.</p>
                 </div>
 
-                {/* Mobile Horizontal Scroll */}
-                <div
-                    ref={scrollRef}
-                    onScroll={handleScroll}
-                    className="md:hidden flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4 -mx-6 px-6"
-                >
+                {/* Mobile: Vertical Stack (Improved from Horizontal Scroll) */}
+                <div className="md:hidden flex flex-col gap-5">
                     {benefits.map((benefit, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial="hidden"
+                            whileInView="visible"
                             viewport={{ once: true, margin: "-50px" }}
+                            variants={fadeInUp}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="flex-shrink-0 w-[75%] snap-center glass-card rounded-2xl p-6 hover:bg-white/[0.06] transition-all duration-300"
+                            className="bg-[#161b22] border border-[#30363d] rounded-xl p-6 flex flex-col items-start"
                         >
-                            {/* Icon - Monochromatic Blue */}
-                            <div className="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-5 text-blue-500">
+                            {/* Icon */}
+                            <div className="mb-4 text-gray-400">
                                 {benefit.icon}
                             </div>
 
@@ -131,41 +129,29 @@ export default function Benefits()
                     ))}
                 </div>
 
-                {/* Mobile Pagination Dots */}
-                <div className="md:hidden flex items-center justify-center gap-2 mt-4">
-                    {benefits.map((_, index) => (
-                        <div
-                            key={index}
-                            className={`h-1.5 rounded-full transition-all duration-300 ${index === activeIndex
-                                    ? "bg-blue-500 w-6"
-                                    : "bg-gray-700 w-1.5"
-                                }`}
-                        />
-                    ))}
-                </div>
-
                 {/* Desktop Grid */}
                 <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {benefits.map((benefit, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            whileHover={{ scale: 1.02, y: -5 }}
-                            className="glass-card rounded-2xl p-8 hover:bg-white/[0.06] transition-all duration-300"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={viewportConfig}
+                            variants={fadeInUp}
+                            transition={getStaggerDelay(index)}
+                            whileHover={cardHover}
+                            className="bg-[#161b22] border border-[#30363d] rounded-xl p-8 hover:border-blue-500/50 hover:shadow-xl transition-all duration-300 group"
                         >
-                            {/* Icon - Monochromatic Blue */}
-                            <div className="w-16 h-16 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-500">
+                            {/* Icon */}
+                            <div className="mb-6 text-gray-400 group-hover:text-blue-400 transition-colors">
                                 {benefit.icon}
                             </div>
 
                             {/* Content */}
-                            <h3 className="text-white font-semibold text-xl mb-3">
+                            <h3 className="text-white font-semibold text-xl mb-3 group-hover:text-blue-400 transition-colors">
                                 {benefit.title}
                             </h3>
-                            <p className="text-gray-400 leading-relaxed">
+                            <p className="text-gray-400 leading-relaxed text-sm">
                                 {benefit.description}
                             </p>
                         </motion.div>
