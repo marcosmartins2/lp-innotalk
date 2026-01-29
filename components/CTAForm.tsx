@@ -69,6 +69,7 @@ export default function CTAForm()
 
         try
         {
+            // Email de notificação para a equipe (suporte@innotalk.com.br)
             const templateParams = {
                 to_email: "suporte@innotalk.com.br",
                 from_name: formData.nome,
@@ -94,12 +95,55 @@ export default function CTAForm()
 Data: ${new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`
             };
 
-            await emailjs.send(
-                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
-                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID",
-                templateParams,
-                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
-            );
+            // Email de boas-vindas personalizado para o usuário
+            const welcomeEmailParams = {
+                to_email: formData.email,
+                to_name: formData.nome,
+                nome_empresa: formData.nomeEmpresa,
+                subject: `Bem-vindo(a) ao Beta da InnoTalk, ${formData.nome}!`,
+                message: `Olá ${formData.nome}! 👋
+
+Ficamos muito felizes em receber sua inscrição no programa Beta da InnoTalk!
+
+Sua empresa ${formData.nomeEmpresa} foi cadastrada com sucesso e em breve você terá acesso à nossa plataforma de atendimento inteligente.
+
+📱 O que acontece agora?
+
+1. Nossa equipe vai analisar seu cadastro
+2. Você receberá um email com suas credenciais de acesso
+3. Poderá começar a usar a InnoTalk para revolucionar seu atendimento!
+
+🎯 Enquanto isso, junte-se ao nosso grupo exclusivo no WhatsApp para:
+• Acompanhar as novidades do Beta
+• Tirar dúvidas diretamente com nossa equipe
+• Fazer parte de uma comunidade de empreendedores inovadores
+
+👉 Link do grupo: https://chat.whatsapp.com/Bi6Cj4hlxYS6sAvGrZEiL9
+
+Se tiver alguma dúvida, responda este email ou entre em contato através do nosso suporte.
+
+Bem-vindo(a) à revolução do atendimento! 🚀
+
+Atenciosamente,
+Equipe InnoTalk`,
+                reply_to: "suporte@innotalk.com.br"
+            };
+
+            // Enviar ambos os emails em paralelo
+            await Promise.all([
+                emailjs.send(
+                    process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
+                    process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID",
+                    templateParams,
+                    process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
+                ),
+                emailjs.send(
+                    process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
+                    process.env.NEXT_PUBLIC_EMAILJS_WELCOME_TEMPLATE_ID || "YOUR_WELCOME_TEMPLATE_ID",
+                    welcomeEmailParams,
+                    process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
+                )
+            ]);
 
             setSubmitStatus("success");
             setFormData({
