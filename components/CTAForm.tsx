@@ -69,9 +69,9 @@ export default function CTAForm()
 
         try
         {
-            // Email de notificação para a equipe (suporte@innotalk.com.br)
+            // Email de notificação para a equipe (comercial@innoprobusiness.com.br)
             const templateParams = {
-                to_email: "suporte@innotalk.com.br",
+                to_email: "comercial@innoprobusiness.com.br",
                 from_name: formData.nome,
                 from_email: formData.email,
                 nome_empresa: formData.nomeEmpresa,
@@ -126,7 +126,7 @@ Bem-vindo(a) à revolução do atendimento! 🚀
 
 Atenciosamente,
 Equipe InnoTalk`,
-                reply_to: "suporte@innotalk.com.br"
+                reply_to: "comercial@innoprobusiness.com.br"
             };
 
             // Enviar ambos os emails em paralelo
@@ -363,7 +363,7 @@ Equipe InnoTalk`,
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl text-sm text-center"
                             >
-                                ✗ Erro ao enviar. Por favor, tente novamente ou entre em contato: suporte@innotalk.com.br
+                                ✗ Erro ao enviar. Por favor, tente novamente ou entre em contato: comercial@innoprobusiness.com.br
                             </motion.div>
                         )}
 
