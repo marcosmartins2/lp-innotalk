@@ -40,31 +40,38 @@ export default function Hero() {
                     <span className="text-gray-400 text-sm">Vagas limitadas</span>
                 </motion.div>
 
-                {/* Heading */}
+                {/* Nome do app (H1) — deve bater com o nome na tela de consentimento OAuth ("InnoTalk") */}
                 <motion.h1
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 relative"
+                    className="text-6xl md:text-8xl font-bold tracking-tight mb-4"
                 >
-                    <span className="text-white drop-shadow-sm">Centralize seu</span>
-                    <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400 animate-gradient-x bg-[length:200%_auto]">
-                        atendimento e agenda
+                        InnoTalk
                     </span>
-                    <br />
-                    <span className="text-white/90">diretamente pelo WhatsApp.</span>
                 </motion.h1>
 
-                {/* Subheading */}
+                {/* Tagline (H2) */}
+                <motion.h2
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: [0.2, 0.65, 0.3, 0.9] }}
+                    className="text-2xl md:text-4xl font-bold tracking-tight mb-6 text-white/90"
+                >
+                    Centralize seu atendimento e agenda diretamente pelo WhatsApp.
+                </motion.h2>
+
+                {/* Propósito — texto visível e explícito ("o que o app é/faz") para a verificação de marca do Google */}
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.3 }}
                     className="text-lg md:text-2xl text-slate-300 max-w-3xl mx-auto mb-14 leading-relaxed font-light"
                 >
-                    A InnoTalk conecta seu <span className="text-white font-medium">WhatsApp, CRM e Google Agenda</span> em um único lugar.
-                    Organize conversas, leads e agendamentos de forma simples e automática.
+                    O <span className="text-white font-medium">InnoTalk</span> é um CRM para WhatsApp que centraliza o atendimento,
+                    organiza leads e integra-se ao <span className="text-white font-medium">Google Calendar</span> para criar e
+                    sincronizar seus agendamentos automaticamente.
                 </motion.p>
 
                 {/* CTA Buttons */}
