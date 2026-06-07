@@ -13,8 +13,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "InnoTalk CRM - BETA",
+  title: "InnoTalk",
+  applicationName: "InnoTalk",
   description: "Centralize seu atendimento e agenda diretamente pelo WhatsApp. Organize conversas, leads e agendamentos de forma simples e automática.",
+  openGraph: {
+    title: "InnoTalk",
+    siteName: "InnoTalk",
+    description: "Centralize seu atendimento e agenda diretamente pelo WhatsApp. Organize conversas, leads e agendamentos de forma simples e automática.",
+    url: "https://innotalk.com.br",
+    type: "website",
+  },
   icons: {
     icon: "/LogoInnotalk.png",
   },
