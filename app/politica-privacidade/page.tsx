@@ -76,11 +76,17 @@ export default function PrivacyPolicy()
                             </ul>
 
                             <h3 className="text-xl font-semibold text-gray-900 mb-3">2.3 Dados técnicos</h3>
-                            <ul className="list-disc list-inside space-y-2 text-gray-700">
+                            <ul className="list-disc list-inside space-y-2 mb-6 text-gray-700">
                                 <li>Endereço IP</li>
                                 <li>Tipo de navegador</li>
                                 <li>Data e hora de acesso</li>
                                 <li>Logs de uso da plataforma</li>
+                            </ul>
+
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">2.4 Dados do Google (ao conectar sua conta)</h3>
+                            <ul className="list-disc list-inside space-y-2 text-gray-700">
+                                <li>E-mail e identificador da conta Google (escopos openid e email)</li>
+                                <li>Eventos do Google Calendar: título, descrição, data e horário (escopo calendar.events)</li>
                             </ul>
                         </div>
 
@@ -109,10 +115,30 @@ export default function PrivacyPolicy()
                                 <li>Google Calendar</li>
                                 <li>Serviços de hospedagem e infraestrutura</li>
                             </ul>
-                            <p className="text-gray-700">
+                            <p className="text-gray-700 mb-6">
                                 Essas integrações seguem seus próprios termos e políticas de privacidade, e os dados são utilizados
                                 exclusivamente para funcionamento das funcionalidades contratadas.
                             </p>
+
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">4.1 Dados do Google (Google Calendar)</h3>
+                            <p className="text-gray-700 mb-4">
+                                Quando o usuário conecta sua conta Google, solicitamos o escopo <strong>Google Calendar
+                                    (calendar.events)</strong> para <strong>ler e criar/atualizar eventos</strong> na agenda do próprio
+                                usuário, sincronizando as tarefas e agendamentos criados no CRM com o Google Agenda.
+                            </p>
+                            <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+                                <li><strong>O que acessamos:</strong> eventos da agenda (título, descrição, data e horário).</li>
+                                <li><strong>Como usamos:</strong> apenas para exibir, criar e atualizar compromissos do seu uso do CRM.</li>
+                                <li><strong>Como armazenamos:</strong> guardamos apenas os tokens OAuth de forma criptografada; não mantemos cópia do conteúdo da sua agenda além do necessário.</li>
+                                <li><strong>O que NÃO fazemos:</strong> não vendemos, não compartilhamos, não usamos para publicidade nem para treinar modelos de IA.</li>
+                                <li><strong>Como revogar:</strong> desconecte na InnoTalk ou em <a className="text-blue-600 underline" href="https://myaccount.google.com/connections" target="_blank" rel="noreferrer">myaccount.google.com/connections</a>.</li>
+                            </ul>
+                            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                                <p className="text-gray-700">
+                                    <strong>Uso Limitado (Limited Use):</strong> o uso e a transferência, pela InnoTalk, de informações
+                                    recebidas das APIs do Google obedecem à <a className="text-blue-600 underline" href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer">Política de Dados do Usuário dos Serviços de API do Google</a>, incluindo os requisitos de Uso Limitado (Limited Use).
+                                </p>
+                            </div>
                         </div>
 
                         <div>

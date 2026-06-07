@@ -105,7 +105,8 @@ export default function Footer()
                     >
                         <span className="block mb-1 text-gray-400 font-medium">Segurança e Privacidade</span>
                         A InnoTalk segue as diretrizes da LGPD. Os dados coletados são
-                        utilizados apenas para contato comercial e uso da plataforma.
+                        utilizados apenas para o funcionamento da plataforma. Dados obtidos
+                        via APIs do Google não são usados para publicidade.
                     </div>
                 </div>
 
