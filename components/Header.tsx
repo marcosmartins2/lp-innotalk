@@ -67,7 +67,7 @@ export default function Header() {
                     {/* Desktop CTA Button */}
                     <div className="hidden md:flex items-center gap-4 flex-shrink-0">
                         <a
-                            href="https://crm-innotalk.vercel.app/login"
+                            href="https://crm.innotalk.com.br/login"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm font-semibold text-gray-300 hover:text-white transition-colors px-2"
@@ -155,7 +155,7 @@ export default function Header() {
                                     className="flex flex-col gap-3"
                                 >
                                     <a
-                                        href="https://crm-innotalk.vercel.app/login"
+                                        href="https://crm.innotalk.com.br/login"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         onClick={() => setIsMenuOpen(false)}
