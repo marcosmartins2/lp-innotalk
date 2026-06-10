@@ -4,6 +4,14 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 
+// Configuração do EmailJS — valores PÚBLICOS (rodam no navegador, podem ser commitados).
+// NUNCA coloque a "Private/Secret Key" do EmailJS aqui: ela ficaria visível para qualquer visitante.
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_ykg1hed";
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_e7e9ped";
+// Template do email de boas-vindas (opcional). Preencha quando criar o 2º template no EmailJS.
+const EMAILJS_WELCOME_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_WELCOME_TEMPLATE_ID || "";
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "7SaFzf9NqefRs7Vui";
+
 export default function CTAForm()
 {
     const [formData, setFormData] = useState({
@@ -69,9 +77,9 @@ export default function CTAForm()
 
         try
         {
-            // Email de notificação para a equipe (comercial@innoprobusiness.com.br)
+            // Email de notificação para a equipe (suporte@innoprobusiness.com.br)
             const templateParams = {
-                to_email: "comercial@innoprobusiness.com.br",
+                to_email: "suporte@innoprobusiness.com.br",
                 from_name: formData.nome,
                 from_email: formData.email,
                 nome_empresa: formData.nomeEmpresa,
@@ -126,24 +134,33 @@ Bem-vindo(a) à revolução do atendimento! 🚀
 
 Atenciosamente,
 Equipe InnoTalk`,
-                reply_to: "comercial@innoprobusiness.com.br"
+                reply_to: "suporte@innoprobusiness.com.br"
             };
 
-            // Enviar ambos os emails em paralelo
-            await Promise.all([
+            // Sempre envia a notificação para a equipe.
+            // O email de boas-vindas só é enviado se o 2º template estiver configurado.
+            const sends = [
                 emailjs.send(
-                    process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
-                    process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID",
+                    EMAILJS_SERVICE_ID,
+                    EMAILJS_TEMPLATE_ID,
                     templateParams,
-                    process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
-                ),
-                emailjs.send(
-                    process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
-                    process.env.NEXT_PUBLIC_EMAILJS_WELCOME_TEMPLATE_ID || "YOUR_WELCOME_TEMPLATE_ID",
-                    welcomeEmailParams,
-                    process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
+                    EMAILJS_PUBLIC_KEY
                 )
-            ]);
+            ];
+
+            if (EMAILJS_WELCOME_TEMPLATE_ID)
+            {
+                sends.push(
+                    emailjs.send(
+                        EMAILJS_SERVICE_ID,
+                        EMAILJS_WELCOME_TEMPLATE_ID,
+                        welcomeEmailParams,
+                        EMAILJS_PUBLIC_KEY
+                    )
+                );
+            }
+
+            await Promise.all(sends);
 
             setSubmitStatus("success");
             setFormData({
@@ -363,7 +380,7 @@ Equipe InnoTalk`,
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl text-sm text-center"
                             >
-                                ✗ Erro ao enviar. Por favor, tente novamente ou entre em contato: comercial@innoprobusiness.com.br
+                                ✗ Erro ao enviar. Por favor, tente novamente ou entre em contato: suporte@innoprobusiness.com.br
                             </motion.div>
                         )}
 
