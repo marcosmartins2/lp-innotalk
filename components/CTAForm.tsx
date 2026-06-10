@@ -173,7 +173,9 @@ Equipe InnoTalk`,
                 nome: "",
             });
 
-            setTimeout(() => setSubmitStatus("idle"), 5000);
+            // Mantém a mensagem de sucesso (com o convite do grupo do WhatsApp) visível
+            // até a pessoa sair da página ou enviar de novo. Antes ela sumia em 5s e os
+            // usuários reclamavam que o link do grupo "aparecia e logo desaparecia".
         }
         catch (error)
         {
