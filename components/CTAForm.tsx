@@ -5,12 +5,14 @@ import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 
 // Configuração do EmailJS — valores PÚBLICOS (rodam no navegador, podem ser commitados).
-// NUNCA coloque a "Private/Secret Key" do EmailJS aqui: ela ficaria visível para qualquer visitante.
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_ykg1hed";
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_e7e9ped";
+// Hardcoded de propósito: NÃO precisa configurar nenhuma variável na Vercel.
+// NUNCA coloque aqui a "Private/Secret Key" do EmailJS: ela é administrativa e ficaria
+// visível para qualquer visitante. O formulário no navegador só usa a Public Key.
+const EMAILJS_SERVICE_ID = "service_ykg1hed";
+const EMAILJS_TEMPLATE_ID = "template_i71euvw";
 // Template do email de boas-vindas (opcional). Preencha quando criar o 2º template no EmailJS.
-const EMAILJS_WELCOME_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_WELCOME_TEMPLATE_ID || "";
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "7SaFzf9NqefRs7Vui";
+const EMAILJS_WELCOME_TEMPLATE_ID = "";
+const EMAILJS_PUBLIC_KEY = "7SaFzf9NqefRs7Vui";
 
 export default function CTAForm()
 {
