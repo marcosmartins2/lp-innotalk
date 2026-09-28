@@ -126,7 +126,7 @@ performance, acessibilidade, boas práticas e SEO, com os limites definidos em
 
 O job escolhe o alvo automaticamente: se a URL de homologação estiver
 respondendo, testa nela; se não, sobe o mesmo artefato no próprio runner
-(`npm ci --omit=dev && npm start`) e testa esse ambiente efêmero.
+(`npm ci && npm start`) e testa esse ambiente efêmero.
 
 ### Job 6 — `deploy-producao` → ambiente `production`
 
