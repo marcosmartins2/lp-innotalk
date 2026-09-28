@@ -1,3 +1,41 @@
+# lp-innotalk
+
+[![CI/CD Pipeline](https://github.com/marcosmartins2/lp-innotalk/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/marcosmartins2/lp-innotalk/actions/workflows/ci-cd.yml)
+
+Landing page da Innotalk (Next.js 16 + TypeScript + Tailwind CSS 4).
+
+## CI/CD
+
+A pipeline de entrega esta definida em [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml)
+e documentada em [`docs/PIPELINE.md`](docs/PIPELINE.md).
+
+```
+1. Analise estatica (ESLint + tsc + npm audit)  ┐
+                                                ├─> 3. Build ─> 4. Deploy staging ─> 5. Testes dinamicos ─> 6. Deploy production ─> 7. Resumo
+2. SAST CodeQL                                  ┘
+```
+
+| Etapa | Ferramentas | Tipo de verificacao |
+| --- | --- | --- |
+| Analise estatica | ESLint, `tsc --noEmit`, `npm audit`, Dependency Review | estatica |
+| SAST | CodeQL (`github/codeql-action`) | estatica de seguranca |
+| Build | `next build` + `actions/upload-artifact` | empacotamento |
+| Testes dinamicos | smoke tests HTTP (`tests/smoke.mjs`) + Lighthouse CI | dinamica |
+| Deploy | Vercel CLI, ambientes `staging` e `production` | entrega |
+
+Ambientes configurados em **Settings > Environments**: `staging` (automatico) e
+`production` (exige aprovacao manual).
+
+Para rodar os smoke tests localmente:
+
+```bash
+npm run build
+npm start &
+node tests/smoke.mjs http://localhost:3000
+```
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

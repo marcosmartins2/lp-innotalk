@@ -1,0 +1,362 @@
+# =============================================================================
+#  PIPELINE DE CI/CD - lp-innotalk (Next.js 16 + TypeScript)
+# =============================================================================
+#  Fluxo dos jobs (cada seta = dependencia declarada com `needs`):
+#
+#    1-analise-estatica ┐
+#                       ├─> 3-build ─> 4-deploy-homologacao ─> 5-testes-dinamicos ─> 6-deploy-producao ─> 7-resumo
+#    2-sast-codeql      ┘               (ambiente: staging)                           (ambiente: production)
+#
+#  AMBIENTES (GitHub Environments): `staging` e `production`.
+#  `production` exige APROVACAO MANUAL (regra de protecao configurada no repo).
+#
+#  VERIFICACAO ESTATICA (le o codigo, nao executa): ESLint, tsc --noEmit,
+#      npm audit, Dependency Review e CodeQL (SAST oficial do GitHub).
+#  VERIFICACAO DINAMICA (executa a aplicacao): smoke tests HTTP + Lighthouse CI
+#      rodando contra o ambiente de homologacao e, depois, contra producao.
+# =============================================================================
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch: # permite disparar a pipeline manualmente na aba Actions
+
+# Permissao minima por padrao; cada job pede so o que precisa.
+permissions:
+  contents: read
+
+# Um push novo na mesma branch cancela a execucao anterior (economiza minutos).
+concurrency:
+  group: ci-cd-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20.x"
+
+jobs:
+  # ===========================================================================
+  # JOB 1 - VERIFICACAO ESTATICA (qualidade de codigo e dependencias)
+  # ===========================================================================
+  analise-estatica:
+    name: 1. Analise estatica (lint + tipos + dependencias)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm # cacheia ~/.npm entre execucoes
+
+      - name: Instalar dependencias (instalacao limpa e reprodutivel)
+        run: npm ci
+
+      - name: ESLint - padroes de codigo e regras do Next.js
+        run: npm run lint
+
+      - name: TypeScript - checagem de tipos sem gerar build
+        run: npx tsc --noEmit
+
+      - name: npm audit - vulnerabilidades conhecidas nas dependencias
+        # Nao bloqueia a pipeline: serve de alerta. Remova a linha
+        # `continue-on-error` para tornar a auditoria obrigatoria.
+        continue-on-error: true
+        run: npm audit --audit-level=high
+
+      - name: Dependency Review - bloqueia dependencia vulneravel em Pull Request
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure
+
+  # ===========================================================================
+  # JOB 2 - SAST com CodeQL (ferramenta nativa do GitHub)
+  # ===========================================================================
+  sast-codeql:
+    name: 2. SAST - CodeQL (seguranca estatica)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      security-events: write # necessario para publicar em Security > Code scanning
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Inicializar o CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          queries: security-and-quality
+
+      - name: Analisar e publicar os alertas
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"
+
+  # ===========================================================================
+  # JOB 3 - BUILD (gera o artefato unico que sera promovido nos ambientes)
+  # ===========================================================================
+  build:
+    name: 3. Build da aplicacao
+    needs: [analise-estatica, sast-codeql]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar em modo producao (next build)
+        run: npm run build
+
+      - name: Empacotar o resultado do build
+        # `.next/cache` fica de fora: e cache local, nao faz parte do deploy.
+        run: tar -czf build.tar.gz --exclude=".next/cache" .next public package.json package-lock.json next.config.ts
+
+      - name: Publicar o artefato (build once, deploy many)
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: build.tar.gz
+          retention-days: 7
+
+  # ===========================================================================
+  # JOB 4 - DEPLOY EM HOMOLOGACAO  (AMBIENTE 1 de 2: `staging`)
+  # ===========================================================================
+  deploy-homologacao:
+    name: 4. Deploy em homologacao (staging)
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: ${{ vars.STAGING_URL }}
+    env:
+      # Segredos vem do ambiente `staging` (Settings > Environments > staging).
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    outputs:
+      url: ${{ steps.publicar.outputs.url }}
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Recuperar o artefato do job de build
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+
+      - name: Desempacotar o artefato
+        run: |
+          tar -xzf build.tar.gz
+          ls -la .next
+
+      - name: Publicar no Vercel (preview = homologacao)
+        id: publicar
+        if: env.VERCEL_TOKEN != ''
+        run: |
+          npm install --global vercel@latest
+          vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
+          vercel build --token="$VERCEL_TOKEN"
+          url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "Homologacao publicada em $url"
+
+      - name: Publicar (modo demonstracao - sem segredos cadastrados)
+        if: env.VERCEL_TOKEN == ''
+        run: |
+          echo "::notice title=Deploy em modo demonstracao::VERCEL_TOKEN nao esta cadastrado no ambiente staging."
+          echo "Comandos que seriam executados no provedor real:"
+          echo "  vercel pull --yes --environment=preview --token=VERCEL_TOKEN"
+          echo "  vercel build --token=VERCEL_TOKEN"
+          echo "  vercel deploy --prebuilt --token=VERCEL_TOKEN"
+          echo "Artefato validado e pronto para publicacao:"
+          du -sh .next
+
+      - name: Registrar no resumo da execucao
+        run: |
+          {
+            echo "### Ambiente de homologacao (staging)"
+            echo ""
+            echo "- Commit: ${{ github.sha }}"
+            echo "- URL: ${{ steps.publicar.outputs.url || vars.STAGING_URL || 'ambiente efemero do runner' }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ===========================================================================
+  # JOB 5 - VERIFICACAO DINAMICA (executa a aplicacao e testa o comportamento)
+  # ===========================================================================
+  testes-dinamicos:
+    name: 5. Testes dinamicos (smoke + Lighthouse)
+    needs: deploy-homologacao
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Recuperar o artefato do job de build
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+
+      - name: Desempacotar o artefato
+        run: tar -xzf build.tar.gz
+
+      - name: Escolher o alvo dos testes
+        id: alvo
+        env:
+          STAGING_URL: ${{ needs.deploy-homologacao.outputs.url || vars.STAGING_URL }}
+        run: |
+          # Se o ambiente de homologacao estiver acessivel, testa nele.
+          # Caso contrario, sobe o MESMO artefato no runner (ambiente efemero).
+          if [ -n "$STAGING_URL" ] && curl -sfI --max-time 10 "$STAGING_URL" > /dev/null 2>&1; then
+            echo "base=$STAGING_URL" >> "$GITHUB_OUTPUT"
+            echo "modo=publicado" >> "$GITHUB_OUTPUT"
+            echo "Testando o ambiente publicado: $STAGING_URL"
+          else
+            echo "base=http://localhost:3000" >> "$GITHUB_OUTPUT"
+            echo "modo=efemero" >> "$GITHUB_OUTPUT"
+            echo "Homologacao nao acessivel; subindo o artefato no runner."
+          fi
+
+      - name: Subir a aplicacao no runner
+        if: steps.alvo.outputs.modo == 'efemero'
+        run: |
+          npm ci --omit=dev
+          npm start &
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000 > /dev/null; then
+              echo "Aplicacao respondendo na porta 3000"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "A aplicacao nao respondeu em 60s"
+          exit 1
+
+      - name: Smoke tests HTTP (status, conteudo, 404, tempo de resposta)
+        run: node tests/smoke.mjs "${{ steps.alvo.outputs.base }}"
+
+      - name: Lighthouse CI (performance, acessibilidade, SEO, boas praticas)
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: ${{ steps.alvo.outputs.base }}
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  # ===========================================================================
+  # JOB 6 - DEPLOY EM PRODUCAO  (AMBIENTE 2 de 2: `production`)
+  #         So roda na branch master e depende de aprovacao manual.
+  # ===========================================================================
+  deploy-producao:
+    name: 6. Deploy em producao
+    needs: testes-dinamicos
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_URL }}
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Recuperar o MESMO artefato aprovado em homologacao
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+
+      - name: Desempacotar o artefato
+        run: tar -xzf build.tar.gz
+
+      - name: Publicar no Vercel (producao)
+        id: publicar
+        if: env.VERCEL_TOKEN != ''
+        run: |
+          npm install --global vercel@latest
+          vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+          vercel build --prod --token="$VERCEL_TOKEN"
+          url=$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "Producao publicada em $url"
+
+      - name: Publicar (modo demonstracao - sem segredos cadastrados)
+        if: env.VERCEL_TOKEN == ''
+        run: |
+          echo "::notice title=Deploy em modo demonstracao::VERCEL_TOKEN nao esta cadastrado no ambiente production."
+          echo "Comandos que seriam executados no provedor real:"
+          echo "  vercel pull --yes --environment=production --token=VERCEL_TOKEN"
+          echo "  vercel build --prod --token=VERCEL_TOKEN"
+          echo "  vercel deploy --prebuilt --prod --token=VERCEL_TOKEN"
+
+      - name: Smoke test pos-deploy em producao
+        # Verificacao dinamica final: confirma que o site no ar esta saudavel.
+        continue-on-error: true
+        run: node tests/smoke.mjs "${{ steps.publicar.outputs.url || vars.PRODUCTION_URL }}"
+
+      - name: Registrar no resumo da execucao
+        run: |
+          {
+            echo "### Ambiente de producao"
+            echo ""
+            echo "- Commit: ${{ github.sha }}"
+            echo "- URL: ${{ steps.publicar.outputs.url || vars.PRODUCTION_URL }}"
+            echo "- Disparado por: @${{ github.actor }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ===========================================================================
+  # JOB 7 - RESUMO FINAL (roda sempre, inclusive se alguma etapa falhou)
+  # ===========================================================================
+  resumo:
+    name: 7. Resumo da pipeline
+    needs: [analise-estatica, sast-codeql, build, deploy-homologacao, testes-dinamicos, deploy-producao]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Montar a tabela de status
+        run: |
+          {
+            echo "## Resultado da pipeline"
+            echo ""
+            echo "| Etapa | Status |"
+            echo "| --- | --- |"
+            echo "| 1. Analise estatica | ${{ needs.analise-estatica.result }} |"
+            echo "| 2. SAST CodeQL | ${{ needs.sast-codeql.result }} |"
+            echo "| 3. Build | ${{ needs.build.result }} |"
+            echo "| 4. Deploy homologacao (staging) | ${{ needs.deploy-homologacao.result }} |"
+            echo "| 5. Testes dinamicos | ${{ needs.testes-dinamicos.result }} |"
+            echo "| 6. Deploy producao | ${{ needs.deploy-producao.result }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
