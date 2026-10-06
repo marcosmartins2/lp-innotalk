@@ -1,20 +1,10 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-// import VideoSection from "@/components/VideoSection";
-import FeaturesFlow from "@/components/FeaturesFlow";
-import Benefits from "@/components/Benefits";
-import HowToStart from "@/components/HowToStart";
+import { LandingFooter, LandingHeader, LandingHero, LandingResources, LandingFinalCTA } from "@/components/PublishedSections";
 import Pricing from "@/components/Pricing";
-import FAQ from "@/components/FAQ";
-import Security from "@/components/Security";
-import CTAForm from "@/components/CTAForm";
-import FinalCTA from "@/components/FinalCTA";
-import Footer from "@/components/Footer";
 
 export default function Home()
 {
   return (
-    <div className="min-h-screen">
+    <div id="landing-page" className="min-h-screen bg-[#0b1f3a] text-white [font-family:var(--font-manrope),sans-serif]">
       {/* Sinal legível por máquina (nome + propósito) para a verificação de marca do Google */}
       <script
         type="application/ld+json"
@@ -31,18 +21,12 @@ export default function Home()
           }),
         }}
       />
-      <Header />
-      <Hero />
-      {/* <VideoSection /> */}
-      <FeaturesFlow />
-      <Benefits />
-      <HowToStart />
+      <LandingHeader />
+      <LandingHero />
+      <LandingResources />
       <Pricing />
-      <FAQ />
-      <Security />
-      <CTAForm />
-      <FinalCTA />
-      <Footer />
+      <LandingFinalCTA />
+      <LandingFooter />
     </div>
   );
 }

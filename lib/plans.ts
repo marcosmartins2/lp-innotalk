@@ -47,6 +47,7 @@ export interface PricingPlan
 {
     id: number | null;
     name: string;
+    description: string;
     /** Valor sem o "R$" (ex.: "79,90") */
     price: string;
     priceCents: number;
@@ -61,11 +62,11 @@ export interface PricingPlan
     href: string;
 }
 
-const DARK_BUTTON = "bg-[#0F172A] hover:bg-[#1E293B] text-white border border-gray-700";
-const YELLOW_BUTTON = "bg-yellow-400 hover:bg-yellow-500 text-black";
-const PLAIN_CARD = "bg-gray-50 border-gray-200 hover:shadow-xl hover:-translate-y-1";
+const OUTLINE_BUTTON = "bg-transparent hover:bg-white/5 text-white border border-white/20";
+const BLUE_BUTTON = "bg-[#2864df] hover:bg-[#2056c8] text-white";
+const PLAIN_CARD = "border-white/10 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.5)] hover:shadow-lg";
 const POPULAR_CARD =
-    "bg-gray-50 border-blue-500 shadow-lg shadow-blue-500/10 hover:shadow-xl hover:-translate-y-1";
+    "border-[#3169df] shadow-[0_14px_34px_-20px_rgba(49,105,223,0.4)]";
 
 /**
  * Estilo/rótulo por plano. O que não estiver aqui cai no padrão.
@@ -73,9 +74,39 @@ const POPULAR_CARD =
  * `contactSales`: plano com preço sob consulta ("A partir de"), então o botão
  * leva ao formulário de contato em vez do checkout direto.
  */
-const PRESENTATION: Record<string, { popular?: boolean; pricePrefix?: string; contactSales?: boolean }> = {
+const PRESENTATION: Record<string, { popular?: boolean }> = {
+    Scale: { popular: true },
     "Scale Beta": { popular: true },
-    Enterprise: { pricePrefix: "A partir de R$ ", contactSales: true },
+};
+
+const DESCRIPTIONS: Record<string, string> = {
+    Starter: "Ideal para pequenos negócios que estão começando.",
+    Scale: "Perfeito para empresas em crescimento que precisam de mais recursos.",
+    Enterprise: "Para grandes equipes que precisam de máxima performance.",
+};
+
+const PLAN_FEATURES: Record<string, string[]> = {
+    Starter: [
+        "WhatsApp centralizado",
+        "CRM de leads",
+        "Agenda integrada (Google Calendar)",
+        "Até 2 usuários",
+        "Suporte por e-mail",
+    ],
+    Scale: [
+        "Tudo do plano Starter",
+        "Relatórios e dashboard",
+        "Automações de atendimento",
+        "Até 5 usuários",
+        "Suporte prioritário",
+    ],
+    Enterprise: [
+        "Tudo do plano Scale",
+        "Usuários ilimitados",
+        "Integrações personalizadas",
+        "Suporte dedicado",
+        "Acesso a recursos avançados",
+    ],
 };
 
 /** Formata centavos para o número exibido no card (sem "R$"). */
@@ -96,23 +127,25 @@ export function centsOf(plan: ApiPlan): number | null
 
 function toPricingPlan(plan: ApiPlan, cents: number): PricingPlan
 {
-    const presentation = PRESENTATION[plan.name] ?? {};
+    const name = plan.name.replace(/\s+Beta$/, "");
+    const presentation = PRESENTATION[name] ?? PRESENTATION[plan.name] ?? {};
     const popular = presentation.popular ?? false;
     const intervalDays = plan.intervalDays ?? plan.interval_days ?? 30;
 
     return {
         id: plan.id,
-        name: plan.name,
+        name,
+        description: DESCRIPTIONS[name] ?? plan.description ?? "",
         price: formatPrice(cents),
         priceCents: cents,
         period: intervalDays === 365 ? "/ano" : "/mês",
-        pricePrefix: presentation.pricePrefix,
-        features: plan.features ?? [],
-        buttonText: presentation.contactSales ? "Falar com consultor" : "Assinar agora",
-        buttonStyle: popular ? YELLOW_BUTTON : DARK_BUTTON,
+        pricePrefix: undefined,
+        features: PLAN_FEATURES[name] ?? plan.features ?? [],
+        buttonText: "Começar agora",
+        buttonStyle: popular ? BLUE_BUTTON : OUTLINE_BUTTON,
         cardStyle: popular ? POPULAR_CARD : PLAIN_CARD,
         popular,
-        href: presentation.contactSales ? "#formulario" : checkoutUrl(plan.id),
+        href: `${CRM_URL}/login`,
     };
 }
 
@@ -123,38 +156,40 @@ function toPricingPlan(plan: ApiPlan, cents: number): PricingPlan
 export const FALLBACK_PLANS: PricingPlan[] = [
     {
         id: null,
-        name: "Starter Beta",
+        name: "Starter",
+        description: DESCRIPTIONS.Starter,
         price: "79,90",
         priceCents: 7990,
         period: "/mês",
         features: [
-            "1 número WhatsApp",
-            "Até ~1.000 conversas/mês",
-            "CRM básico",
-            "Agenda integrada",
-            "Suporte via WhatsApp",
+            "WhatsApp centralizado",
+            "CRM de leads",
+            "Agenda integrada (Google Calendar)",
+            "Até 2 usuários",
+            "Suporte por e-mail",
         ],
-        buttonText: "Assinar agora",
-        buttonStyle: DARK_BUTTON,
+        buttonText: "Começar agora",
+        buttonStyle: OUTLINE_BUTTON,
         cardStyle: PLAIN_CARD,
         popular: false,
         href: checkoutUrl(null),
     },
     {
         id: null,
-        name: "Scale Beta",
+        name: "Scale",
+        description: DESCRIPTIONS.Scale,
         price: "119,90",
         priceCents: 11990,
         period: "/mês",
         features: [
-            "1-2 números WhatsApp",
-            "Até ~5.000 conversas/mês",
-            "Dashboard avançado",
-            "Integrações extras (Google Sheets/ Meta Ads)",
+            "Tudo do plano Starter",
+            "Relatórios e dashboard",
+            "Automações de atendimento",
+            "Até 5 usuários",
             "Suporte prioritário",
         ],
-        buttonText: "Assinar agora",
-        buttonStyle: YELLOW_BUTTON,
+        buttonText: "Começar agora",
+        buttonStyle: BLUE_BUTTON,
         cardStyle: POPULAR_CARD,
         popular: true,
         href: checkoutUrl(null),
@@ -162,22 +197,22 @@ export const FALLBACK_PLANS: PricingPlan[] = [
     {
         id: null,
         name: "Enterprise",
+        description: DESCRIPTIONS.Enterprise,
         price: "249,90",
         priceCents: 24990,
-        pricePrefix: "A partir de R$ ",
         period: "/mês",
         features: [
-            "Multiusuário",
-            "Conversas ilimitadas",
-            "Dashboards customizados",
+            "Tudo do plano Scale",
+            "Usuários ilimitados",
+            "Integrações personalizadas",
             "Suporte dedicado",
-            "SLA garantido",
+            "Acesso a recursos avançados",
         ],
-        buttonText: "Falar com consultor",
-        buttonStyle: DARK_BUTTON,
+        buttonText: "Começar agora",
+        buttonStyle: OUTLINE_BUTTON,
         cardStyle: PLAIN_CARD,
         popular: false,
-        href: "#formulario",
+        href: `${CRM_URL}/login`,
     },
 ];
 

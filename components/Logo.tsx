@@ -5,9 +5,10 @@ interface LogoProps
     showText?: boolean;
     size?: "sm" | "md" | "lg";
     className?: string;
+    textClassName?: string;
 }
 
-export default function Logo({ showText = true, size = "md", className = "" }: LogoProps)
+export default function Logo({ showText = true, size = "md", className = "", textClassName = "text-[#0b1f3a]" }: LogoProps)
 {
     const sizes = {
         sm: { image: 32, text: "text-lg" },
@@ -28,7 +29,7 @@ export default function Logo({ showText = true, size = "md", className = "" }: L
                 style={{ height: `${currentSize.image}px` }}
             />
             {showText && (
-                <span className={`font-playfair font-semibold tracking-tight text-white ${currentSize.text}`}>
+                <span className={`font-semibold tracking-tight ${textClassName} ${currentSize.text}`}>
                     InnoTalk
                 </span>
             )}

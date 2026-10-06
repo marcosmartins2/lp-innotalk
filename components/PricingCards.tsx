@@ -12,7 +12,7 @@ interface PricingCardsProps
 export default function PricingCards({ plans }: PricingCardsProps)
 {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="mx-auto grid max-w-[1180px] grid-cols-1 items-stretch gap-5 md:grid-cols-3 md:gap-6">
             {plans.map((plan, index) => (
                 <motion.div
                     key={plan.name}
@@ -20,48 +20,42 @@ export default function PricingCards({ plans }: PricingCardsProps)
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6, delay: index * 0.15 }}
-                    className={`relative rounded-2xl p-8 border-2 transition-all duration-300 cursor-pointer ${plan.cardStyle}`}
+                    className={`relative flex flex-col rounded-[14px] border bg-[#10233e] p-6 transition-all duration-300 sm:p-7 ${plan.cardStyle}`}
                 >
                     {/* Popular Badge */}
                     {plan.popular && (
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                            <div className="bg-blue-600 text-white text-sm font-semibold px-4 py-1 rounded-full">
-                                Mais Popular
+                            <div className="rounded-full bg-[#2864df] px-4 py-1.5 text-[12px] font-bold text-white">
+                                Mais escolhido
                             </div>
                         </div>
                     )}
 
                     {/* Plan Name */}
-                    <h3 className="text-gray-900 font-semibold text-2xl mb-6 text-center">
+                    <h3 className="mb-2 text-[19.2px] font-extrabold leading-[26px] capitalize text-white">
                         {plan.name}
                     </h3>
 
+                    <p className="mb-[22px] min-h-[42px] text-[13.76px] leading-[1.55] text-slate-300">
+                        {plan.description}
+                    </p>
+
                     {/* Price */}
-                    <div className="text-center mb-8">
-                        {plan.pricePrefix ? (
-                            <div className="text-gray-900">
-                                <span className="text-lg">{plan.pricePrefix}</span>
-                                <span className="text-4xl font-bold">{plan.price}</span>
-                                <span className="text-gray-500 text-sm">{plan.period}</span>
-                            </div>
-                        ) : (
-                            <div className="text-gray-900">
-                                <span className="text-xl">R$ </span>
-                                <span className="text-5xl font-bold">{plan.price}</span>
-                                <span className="text-gray-500 text-lg">{plan.period}</span>
-                            </div>
-                        )}
+                    <div className="mb-6 flex items-baseline gap-1.5 text-white">
+                        <span className="text-[14px] font-semibold">R$</span>
+                        <span className="min-h-[46px] text-[33.6px] font-extrabold leading-[46px]">{plan.price}</span>
+                        <span className="text-[12px] text-slate-400">{plan.period}</span>
                     </div>
 
                     {/* Features */}
-                    <ul className="space-y-4 mb-8">
+                    <ul className="mb-7 flex-1 space-y-3">
                         {plan.features.map((feature, featureIndex) => (
                             <li key={featureIndex} className="flex items-start gap-3">
                                 <CheckIcon
-                                    className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5"
+                                    className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#5b8def]"
                                     variant="alt"
                                 />
-                                <span className="text-gray-600 text-sm">{feature}</span>
+                                <span className="text-[13.76px] leading-[19px] text-slate-300">{feature}</span>
                             </li>
                         ))}
                     </ul>
@@ -69,7 +63,7 @@ export default function PricingCards({ plans }: PricingCardsProps)
                     {/* CTA Button */}
                     <a
                         href={plan.href}
-                        className={`w-full ${plan.buttonStyle} font-semibold py-3 rounded-full transition-all duration-200 block text-center`}
+                        className={`block w-full rounded-[9px] py-3 text-center text-[14px] font-bold transition-colors duration-200 ${plan.buttonStyle}`}
                     >
                         {plan.buttonText}
                     </a>
