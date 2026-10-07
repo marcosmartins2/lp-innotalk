@@ -71,8 +71,7 @@ const POPULAR_CARD =
 /**
  * Estilo/rótulo por plano. O que não estiver aqui cai no padrão.
  *
- * `contactSales`: plano com preço sob consulta ("A partir de"), então o botão
- * leva ao formulário de contato em vez do checkout direto.
+ * `popular`: recebe o destaque azul e o selo "Mais escolhido".
  */
 const PRESENTATION: Record<string, { popular?: boolean }> = {
     Scale: { popular: true },
@@ -145,7 +144,7 @@ function toPricingPlan(plan: ApiPlan, cents: number): PricingPlan
         buttonStyle: popular ? BLUE_BUTTON : OUTLINE_BUTTON,
         cardStyle: popular ? POPULAR_CARD : PLAIN_CARD,
         popular,
-        href: `${CRM_URL}/login`,
+        href: checkoutUrl(plan.id),
     };
 }
 
@@ -212,7 +211,7 @@ export const FALLBACK_PLANS: PricingPlan[] = [
         buttonStyle: OUTLINE_BUTTON,
         cardStyle: PLAIN_CARD,
         popular: false,
-        href: `${CRM_URL}/login`,
+        href: checkoutUrl(null),
     },
 ];
 
