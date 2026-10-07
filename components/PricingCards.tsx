@@ -41,11 +41,17 @@ export default function PricingCards({ plans }: PricingCardsProps)
                     </p>
 
                     {/* Price */}
-                    <div className="mb-6 flex items-baseline gap-1.5 text-white">
+                    <div className="mb-2 flex items-baseline gap-1.5 text-white">
                         <span className="text-[14px] font-semibold">R$</span>
                         <span className="min-h-[46px] text-[33.6px] font-extrabold leading-[46px]">{plan.price}</span>
                         <span className="text-[12px] text-slate-400">{plan.period}</span>
                     </div>
+
+                    {/* O plano começa em teste: a cobrança só vem depois dos 14 dias. */}
+                    <p className="mb-6 inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#8fb2ff]">
+                        <CheckIcon className="h-3.5 w-3.5 flex-shrink-0" variant="alt" />
+                        14 dias grátis para testar
+                    </p>
 
                     {/* Features */}
                     <ul className="mb-7 flex-1 space-y-3">

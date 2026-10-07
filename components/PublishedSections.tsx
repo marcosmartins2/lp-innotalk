@@ -7,7 +7,7 @@ import DashboardPreview from "@/components/DashboardPreview";
 const CRM_URL =
     process.env.NEXT_PUBLIC_CRM_URL?.replace(/\/$/, "") ?? "https://crm.innotalk.com.br";
 
-/** "Entrar" vai para o login; "Começar agora" vai para o cadastro (trial de 14 dias). */
+/** "Entrar" vai para o login; "Começar grátis" vai para o cadastro (trial de 14 dias). */
 const loginUrl = `${CRM_URL}/login`;
 const signupUrl = `${CRM_URL}/cadastro`;
 
@@ -34,7 +34,7 @@ export function LandingHeader() {
                 </nav>
                 <div className="hidden items-center gap-5 lg:flex">
                     <a href={loginUrl} className="text-[14px] font-bold text-white transition-colors hover:text-[#8fb2ff]">Entrar</a>
-                    <a href={signupUrl} className="rounded-[9px] bg-[#2864df] px-5 py-3 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#2056c8]">Começar agora</a>
+                    <a href={signupUrl} className="rounded-[9px] bg-[#2864df] px-5 py-3 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#2056c8]">Começar grátis</a>
                 </div>
                 <button type="button" aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={isMenuOpen} onClick={() => setIsMenuOpen((open) => !open)} className="flex h-10 w-10 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10 lg:hidden">
                     <span className="flex w-6 flex-col gap-[5px]" aria-hidden="true">
@@ -49,7 +49,7 @@ export function LandingHeader() {
                     {navLinks.map((link) => <a key={link.label} href={link.href} onClick={() => setIsMenuOpen(false)} className="border-b border-white/10 py-3.5 text-[15px] font-semibold text-slate-200">{link.label}</a>)}
                     <div className="flex gap-3 pt-4">
                         <a href={loginUrl} onClick={() => setIsMenuOpen(false)} className="flex-1 rounded-[9px] border border-white/20 px-4 py-3 text-center text-sm font-bold text-white">Entrar</a>
-                        <a href={signupUrl} onClick={() => setIsMenuOpen(false)} className="flex-1 rounded-[9px] bg-[#2864df] px-4 py-3 text-center text-sm font-bold text-white">Começar agora</a>
+                        <a href={signupUrl} onClick={() => setIsMenuOpen(false)} className="flex-1 rounded-[9px] bg-[#2864df] px-4 py-3 text-center text-sm font-bold text-white">Começar grátis</a>
                     </div>
                 </nav>
             </div>}
@@ -69,14 +69,14 @@ export function LandingHero() {
                     <p className="mb-8 max-w-[440px] text-[16px] leading-[1.6] text-slate-300 sm:text-[17px]">Centralize conversas, leads, agenda e gestão em um único lugar.</p>
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                         <a href={signupUrl} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[9px] bg-[#2864df] px-[22px] text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#2056c8]">
-                            Começar agora<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                            Começar grátis<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                         </a>
                         <a href="#recursos" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[9px] border border-white/20 px-[22px] text-[14px] font-bold text-white transition-colors hover:border-white/30 hover:bg-white/5">
                             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="m10 8 6 4-6 4z" /></svg>Ver como funciona
                         </a>
                     </div>
                     <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] font-medium text-slate-300 sm:gap-x-6">
-                        {["Fácil de usar", "Suporte especializado", "Sem complicação"].map((item) => <li key={item} className="inline-flex items-center gap-1.5 whitespace-nowrap"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 20 20" fill="none"><path d="m4 10 4 4 8-8" stroke="#5b8def" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>{item}</li>)}
+                        {["14 dias grátis", "Sem cartão de crédito", "Suporte especializado", "Sem complicação"].map((item) => <li key={item} className="inline-flex items-center gap-1.5 whitespace-nowrap"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 20 20" fill="none"><path d="m4 10 4 4 8-8" stroke="#5b8def" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>{item}</li>)}
                     </ul>
                 </div>
                 <DashboardPreview />
@@ -127,9 +127,9 @@ export function LandingFinalCTA() {
                 </div>
                 <div className="flex shrink-0 flex-col items-center md:items-start">
                     <a href={signupUrl} className="inline-flex min-h-[53px] min-w-[195px] items-center justify-center gap-2 rounded-[10px] bg-[#2563eb] px-6 text-[14px] font-bold text-white transition-colors hover:bg-[#1d4ed8]">
-                        Começar agora<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                        Começar grátis<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                     </a>
-                    <p className="mt-3 text-[12px] text-slate-300">Sem cartão de crédito</p>
+                    <p className="mt-3 text-[12px] text-slate-300">14 dias grátis · sem cartão de crédito</p>
                 </div>
             </div>
         </section>
