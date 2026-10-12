@@ -11,7 +11,7 @@ interface CTAButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 const variantClasses: Record<CTAVariant, string> = {
-    primary: "bg-yellow-400 hover:bg-yellow-300 text-black border border-yellow-300/50 shadow-[0_0_20px_-5px_rgba(250,204,21,0.3)]",
+    primary: "bg-brand hover:bg-brand-hover text-white border border-brand/50 shadow-[0_0_20px_-5px_rgba(37,99,235,0.3)]",
     secondary: "bg-transparent text-white border border-gray-600 hover:border-gray-300 hover:bg-white/5",
     ghost: "text-gray-300 hover:text-white hover:bg-white/5 border-transparent",
 };

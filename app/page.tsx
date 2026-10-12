@@ -1,10 +1,12 @@
 import { LandingFooter, LandingHeader, LandingHero, LandingResources, LandingFinalCTA } from "@/components/PublishedSections";
 import Pricing from "@/components/Pricing";
+import FAQ from "@/components/FAQ";
+import CTAForm from "@/components/CTAForm";
 
 export default function Home()
 {
   return (
-    <div id="landing-page" className="min-h-screen bg-[#0b1f3a] text-white [font-family:var(--font-manrope),sans-serif]">
+    <div id="landing-page" className="min-h-screen bg-ink text-white [font-family:var(--font-manrope),sans-serif]">
       {/* Sinal legível por máquina (nome + propósito) para a verificação de marca do Google */}
       <script
         type="application/ld+json"
@@ -25,6 +27,8 @@ export default function Home()
       <LandingHero />
       <LandingResources />
       <Pricing />
+      <FAQ />
+      <CTAForm />
       <LandingFinalCTA />
       <LandingFooter />
     </div>

@@ -4,7 +4,7 @@ import Logo from '@/components/Logo';
 export default function PrivacyPolicy()
 {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-slate-50">
             <div className="max-w-4xl mx-auto px-4 py-8">
                 {/* Header */}
                 <div className="mb-8">
@@ -211,7 +211,7 @@ export default function PrivacyPolicy()
                         <div>
                             <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Contato</h2>
                             <p className="text-gray-700 mb-4">Em caso de dúvidas sobre esta Política de Privacidade ou sobre o tratamento de dados pessoais, entre em contato:</p>
-                            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 p-4 rounded-lg">
+                            <div className="bg-gradient-to-r from-blue-50 to-slate-50 border border-blue-200 p-4 rounded-lg">
                                 <p className="text-gray-900 font-semibold">📧 suporte@innotalk.com.br</p>
                             </div>
                         </div>

@@ -25,7 +25,7 @@ export default function VideoSection()
                         {/* Interface mockup */}
                         <div className="text-center">
                             {/* App icon */}
-                            <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg">
                                 <div className="grid grid-cols-3 gap-1 p-2">
                                     <div className="w-2 h-2 bg-white rounded-sm"></div>
                                     <div className="w-2 h-2 bg-white rounded-sm"></div>
@@ -43,7 +43,7 @@ export default function VideoSection()
 
                         {/* Bottom stats icon */}
                         <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-                            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3 3H21V21H3V3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     <path d="M3 9H21" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
