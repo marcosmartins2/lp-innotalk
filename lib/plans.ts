@@ -63,10 +63,10 @@ export interface PricingPlan
 }
 
 const OUTLINE_BUTTON = "bg-transparent hover:bg-white/5 text-white border border-white/20";
-const BLUE_BUTTON = "bg-[#2864df] hover:bg-[#2056c8] text-white";
-const PLAIN_CARD = "border-white/10 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.5)] hover:shadow-lg";
+const BLUE_BUTTON = "bg-brand hover:bg-brand-hover text-white";
+const PLAIN_CARD = "border-line shadow-[0_8px_24px_-16px_rgba(0,0,0,0.5)] hover:shadow-lg";
 const POPULAR_CARD =
-    "border-[#3169df] shadow-[0_14px_34px_-20px_rgba(49,105,223,0.4)]";
+    "border-brand shadow-[0_18px_40px_-20px_rgba(37,99,235,0.55)]";
 
 /**
  * Estilo/rótulo por plano. O que não estiver aqui cai no padrão.

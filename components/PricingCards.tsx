@@ -20,12 +20,12 @@ export default function PricingCards({ plans }: PricingCardsProps)
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6, delay: index * 0.15 }}
-                    className={`relative flex flex-col rounded-[14px] border bg-[#10233e] p-6 transition-all duration-300 sm:p-7 ${plan.cardStyle}`}
+                    className={`relative flex flex-col rounded-[14px] border bg-graphite p-6 transition-all duration-300 sm:p-7 ${plan.cardStyle}`}
                 >
                     {/* Popular Badge */}
                     {plan.popular && (
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                            <div className="rounded-full bg-[#2864df] px-4 py-1.5 text-[12px] font-bold text-white">
+                            <div className="rounded-full bg-brand px-4 py-1.5 text-[12px] font-bold text-white">
                                 Mais escolhido
                             </div>
                         </div>
@@ -36,7 +36,7 @@ export default function PricingCards({ plans }: PricingCardsProps)
                         {plan.name}
                     </h3>
 
-                    <p className="mb-[22px] min-h-[42px] text-[13.76px] leading-[1.55] text-slate-300">
+                    <p className="mb-[22px] min-h-[42px] text-[13.76px] leading-[1.55] text-muted">
                         {plan.description}
                     </p>
 
@@ -44,7 +44,7 @@ export default function PricingCards({ plans }: PricingCardsProps)
                     <div className="mb-2 flex items-baseline gap-1.5 text-white">
                         <span className="text-[14px] font-semibold">R$</span>
                         <span className="min-h-[46px] text-[33.6px] font-extrabold leading-[46px]">{plan.price}</span>
-                        <span className="text-[12px] text-slate-400">{plan.period}</span>
+                        <span className="text-[12px] text-zinc-400">{plan.period}</span>
                     </div>
 
                     {/* O plano começa em teste: a cobrança só vem depois dos 14 dias. */}
@@ -58,10 +58,10 @@ export default function PricingCards({ plans }: PricingCardsProps)
                         {plan.features.map((feature, featureIndex) => (
                             <li key={featureIndex} className="flex items-start gap-3">
                                 <CheckIcon
-                                    className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#5b8def]"
+                                    className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-soft"
                                     variant="alt"
                                 />
-                                <span className="text-[13.76px] leading-[19px] text-slate-300">{feature}</span>
+                                <span className="text-[13.76px] leading-[19px] text-muted">{feature}</span>
                             </li>
                         ))}
                     </ul>

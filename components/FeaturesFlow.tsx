@@ -135,7 +135,7 @@ export default function FeaturesFlow() {
                     <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full flex justify-between pointer-events-none px-0 z-20">
                         <button
                             onClick={handlePrev}
-                            className="pointer-events-auto w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-blue-500 transition-all active:scale-95 -ml-2"
+                            className="pointer-events-auto w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-brand transition-all active:scale-95 -ml-2"
                             aria-label="Previous slide"
                         >
                             <ChevronIcon className="w-6 h-6 rotate-90" />
@@ -143,7 +143,7 @@ export default function FeaturesFlow() {
 
                         <button
                             onClick={handleNext}
-                            className="pointer-events-auto w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-blue-500 transition-all active:scale-95 -mr-2"
+                            className="pointer-events-auto w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-brand transition-all active:scale-95 -mr-2"
                             aria-label="Next slide"
                         >
                             <ChevronIcon className="w-6 h-6 -rotate-90" />

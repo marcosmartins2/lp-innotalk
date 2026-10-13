@@ -11,7 +11,6 @@
   --accent-blue: #2f81f7;
   --accent-cyan: #3fb950;
   /* Using GitHub green-ish accent for success/cyan equivalent */
-  --accent-purple: #a371f7;
   --accent-yellow: #d29922;
   
 
@@ -41,6 +40,18 @@
 
   --color-accent-blue: var(--accent-blue);
   --color-accent-cyan: var(--accent-cyan);
+
+  /* Identidade visual InnoTalk: azul #2563EB + preto/grafite. Não usar roxo. */
+  --color-ink: #0b0b0d;          /* fundo principal */
+  --color-graphite: #111318;     /* fundo de seções e cards */
+  --color-graphite-2: #161b26;   /* superfície secundária */
+  --color-graphite-3: #1c2433;   /* superfície elevada (mockups) */
+  --color-brand: #2563eb;        /* azul principal: botões, destaques, estados ativos */
+  --color-brand-hover: #1d4ed8;
+  --color-brand-soft: #60a5fa;   /* azul claro para textos/ícones pequenos sobre fundo escuro (contraste AA) */
+  --color-brand-blue: #3b82f6;
+  --color-muted: #aab4c5;        /* texto secundário */
+  --color-line: #273449;         /* bordas */
 }
 
 body {
