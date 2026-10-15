@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { CheckIcon } from "@/components/icons";
+import { trackPixel } from "@/components/MetaPixel";
 import type { PricingPlan } from "@/lib/plans";
 
 interface PricingCardsProps
@@ -69,6 +70,17 @@ export default function PricingCards({ plans }: PricingCardsProps)
                     {/* CTA Button */}
                     <a
                         href={plan.href}
+                        // Marca a intenção de compra ANTES de sair para o CRM: a
+                        // partir daqui o usuário troca de domínio e o pixel da LP
+                        // não vê mais nada. A conversão em si (`Purchase`) é
+                        // disparada pelo servidor quando o PIX é confirmado.
+                        onClick={() => trackPixel("InitiateCheckout", {
+                            currency: "BRL",
+                            value: plan.priceCents / 100,
+                            content_name: plan.name,
+                            content_ids: plan.id ? [String(plan.id)] : undefined,
+                            content_type: "product",
+                        })}
                         className={`block w-full rounded-[9px] py-3 text-center text-[14px] font-bold transition-colors duration-200 ${plan.buttonStyle}`}
                     >
                         {plan.buttonText}
