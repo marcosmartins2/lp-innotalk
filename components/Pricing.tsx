@@ -1,3 +1,4 @@
+import PeriodPricing from "@/components/PeriodPricing";
 import PricingCards from "@/components/PricingCards";
 import { getPlans } from "@/lib/plans";
 
@@ -23,6 +24,7 @@ export default async function Pricing()
                 </div>
 
                 <PricingCards plans={plans} />
+                <PeriodPricing />
             </div>
         </section>
     );
