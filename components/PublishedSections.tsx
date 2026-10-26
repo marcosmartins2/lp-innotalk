@@ -11,7 +11,7 @@ import { fadeInUp, viewportConfig } from "@/lib/animations";
 const CRM_URL =
     process.env.NEXT_PUBLIC_CRM_URL?.replace(/\/$/, "") ?? "https://crm.innotalk.com.br";
 
-/** "Entrar" vai para o login; "Começar grátis" vai para o cadastro (trial de 14 dias). */
+/** "Entrar" vai para o login; "Começar grátis" vai para o cadastro (trial de 7 dias). */
 const loginUrl = `${CRM_URL}/login`;
 const signupUrl = `${CRM_URL}/cadastro`;
 const whatsappUrl = "https://wa.me/5562998009542";
@@ -82,7 +82,7 @@ export function LandingHero() {
                         </a>
                     </div>
                     <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] font-medium text-muted sm:gap-x-6">
-                        {["14 dias grátis", "Sem cartão de crédito", "Suporte especializado", "Sem complicação"].map((item) => <li key={item} className="inline-flex items-center gap-1.5 whitespace-nowrap"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 20 20" fill="none" className="text-brand-soft"><path d="m4 10 4 4 8-8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>{item}</li>)}
+                        {["7 dias grátis", "Sem cartão de crédito", "Suporte especializado", "Sem complicação"].map((item) => <li key={item} className="inline-flex items-center gap-1.5 whitespace-nowrap"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 20 20" fill="none" className="text-brand-soft"><path d="m4 10 4 4 8-8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>{item}</li>)}
                     </ul>
                 </div>
                 <DashboardPreview />
@@ -190,7 +190,7 @@ export function LandingFinalCTA() {
                     <a href={signupUrl} className="inline-flex min-h-[53px] min-w-[195px] items-center justify-center gap-2 rounded-[10px] bg-brand px-6 text-[14px] font-bold text-white transition-colors hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-soft">
                         Começar grátis{arrowIcon}
                     </a>
-                    <p className="mt-3 text-[12px] text-muted">14 dias grátis · sem cartão de crédito</p>
+                    <p className="mt-3 text-[12px] text-muted">7 dias grátis · sem cartão de crédito</p>
                 </div>
             </div>
         </section>

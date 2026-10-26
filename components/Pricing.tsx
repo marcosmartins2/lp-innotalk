@@ -19,7 +19,7 @@ export default async function Pricing()
                         Escolha o plano ideal para o seu negócio
                     </h2>
                     <p className="text-[15px] leading-relaxed text-muted sm:text-[16px]">
-                        Todos os planos começam com <strong className="font-bold text-white">14 dias grátis</strong>.
+                        Todos os planos começam com <strong className="font-bold text-white">7 dias grátis</strong>.
                         Você só paga quando o teste acabar.
                     </p>
                 </div>

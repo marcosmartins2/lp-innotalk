@@ -48,10 +48,10 @@ export default function PricingCards({ plans }: PricingCardsProps)
                         <span className="text-[12px] text-zinc-400">{plan.period}</span>
                     </div>
 
-                    {/* O plano começa em teste: a cobrança só vem depois dos 14 dias. */}
+                    {/* O plano começa em teste: a cobrança só vem depois dos 7 dias. */}
                     <p className="mb-6 inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#8fb2ff]">
                         <CheckIcon className="h-3.5 w-3.5 flex-shrink-0" variant="alt" />
-                        14 dias grátis para testar
+                        7 dias grátis para testar
                     </p>
 
                     {/* Features */}
