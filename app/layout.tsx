@@ -18,16 +18,30 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
+const description =
+  "CRM para WhatsApp: centralize as conversas da equipe, organize leads no funil de vendas e sincronize a agenda com o Google Calendar. Teste grátis por 14 dias, sem cartão de crédito.";
+
 export const metadata: Metadata = {
-  title: "InnoTalk",
+  metadataBase: new URL("https://innotalk.com.br"),
+  title: {
+    default: "InnoTalk | CRM para WhatsApp com funil de vendas e agenda",
+    template: "%s | InnoTalk",
+  },
   applicationName: "InnoTalk",
-  description: "Centralize seu atendimento e agenda diretamente pelo WhatsApp. Organize conversas, leads e agendamentos de forma simples e automática.",
+  description,
+  keywords: ["CRM para WhatsApp", "atendimento pelo WhatsApp", "funil de vendas", "gestão de leads", "agenda integrada", "Google Calendar", "InnoTalk"],
   openGraph: {
-    title: "InnoTalk",
+    title: "InnoTalk | CRM para WhatsApp com funil de vendas e agenda",
     siteName: "InnoTalk",
-    description: "Centralize seu atendimento e agenda diretamente pelo WhatsApp. Organize conversas, leads e agendamentos de forma simples e automática.",
+    description,
     url: "https://innotalk.com.br",
     type: "website",
+    locale: "pt_BR",
+  },
+  twitter: {
+    card: "summary",
+    title: "InnoTalk | CRM para WhatsApp com funil de vendas e agenda",
+    description,
   },
   icons: {
     icon: "/LogoInnotalk.png",

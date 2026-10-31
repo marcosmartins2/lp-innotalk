@@ -2,6 +2,14 @@ import { LandingFooter, LandingHeader, LandingHero, LandingResources, LandingFin
 import Pricing from "@/components/Pricing";
 import FAQ from "@/components/FAQ";
 import CTAForm from "@/components/CTAForm";
+import PainPoints from "@/components/PainPoints";
+import Testimonials from "@/components/Testimonials";
+import JourneySimulation from "@/components/JourneySimulation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home()
 {
@@ -20,16 +28,27 @@ export default function Home()
             url: "https://innotalk.com.br",
             description:
               "InnoTalk é um CRM para WhatsApp que centraliza o atendimento, organiza leads e integra-se ao Google Calendar para criar e sincronizar agendamentos.",
+            offers: [
+              { "@type": "Offer", name: "Starter", price: "79.90", priceCurrency: "BRL" },
+              { "@type": "Offer", name: "Scale", price: "119.90", priceCurrency: "BRL" },
+              { "@type": "Offer", name: "Enterprise", price: "249.90", priceCurrency: "BRL" },
+            ],
           }),
         }}
       />
       <LandingHeader />
-      <LandingHero />
-      <LandingResources />
-      <Pricing />
-      <FAQ />
-      <CTAForm />
-      <LandingFinalCTA />
+      <main>
+        {/* Narrativa: dor → solução → prova social → demonstração → oferta → conversão */}
+        <LandingHero />
+        <PainPoints />
+        <LandingResources />
+        <Testimonials />
+        <JourneySimulation />
+        <Pricing />
+        <FAQ />
+        <CTAForm />
+        <LandingFinalCTA />
+      </main>
       <LandingFooter />
     </div>
   );

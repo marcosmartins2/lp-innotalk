@@ -33,7 +33,7 @@ export default function PeriodPricing()
         <div id="precos-por-periodo" className="mx-auto mt-20 max-w-[1180px] scroll-mt-[92px] sm:mt-24">
             <div className="mb-8 text-center sm:mb-10">
                 <h3 className="mb-3 text-[24px] font-extrabold leading-tight text-white sm:text-[28px]">
-                    Planos e preços por período
+                    Contrate por mais tempo e pague menos por mês
                 </h3>
                 <p className="text-[15px] leading-relaxed text-muted">
                     Compare o valor equivalente mensal de cada plano conforme o prazo de contratação.
@@ -77,58 +77,64 @@ export default function PeriodPricing()
             </p>
 
             {/* Detalhamento por plano */}
-            <div className="mt-14 space-y-10 sm:mt-16 sm:space-y-12">
-                {PERIOD_PRICING.map((plan) =>
-                {
-                    const base = plan.prices[0];
-                    const best = plan.prices[plan.prices.length - 1];
+            <details className="group mt-10 rounded-[12px] border border-line bg-graphite/40">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[12px] px-5 py-4 text-[15px] font-bold text-white transition-colors hover:bg-white/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-soft [&::-webkit-details-marker]:hidden">
+                    Ver total do período e economia de cada plano
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-brand-soft transition-transform duration-300 group-open:rotate-180 motion-reduce:transition-none"><path d="m6 9 6 6 6-6" /></svg>
+                </summary>
+                <div className="space-y-10 px-5 pb-6 pt-4 sm:space-y-12">
+                    {PERIOD_PRICING.map((plan) =>
+                    {
+                        const base = plan.prices[0];
+                        const best = plan.prices[plan.prices.length - 1];
 
-                    return (
-                        <div key={plan.name} className="grid gap-4 lg:grid-cols-[240px_1fr] lg:gap-8">
-                            <div className="lg:pt-2">
-                                <h4 className="mb-1.5 text-[20px] font-extrabold text-brand-soft">{plan.name}</h4>
-                                <p className="text-[13.5px] leading-relaxed text-muted">
-                                    Preço-base: {brl(base.monthlyCents)}/mês ({base.months} meses).
-                                </p>
-                                <p className="mt-1 text-[13.5px] leading-relaxed text-muted">
-                                    Em {best.months} meses, economia de{" "}
-                                    <span className="font-semibold text-brand-soft">{brl(best.savingsCents)}</span>.
-                                </p>
-                            </div>
+                        return (
+                            <div key={plan.name} className="grid gap-4 lg:grid-cols-[240px_1fr] lg:gap-8">
+                                <div className="lg:pt-2">
+                                    <h4 className="mb-1.5 text-[20px] font-extrabold text-brand-soft">{plan.name}</h4>
+                                    <p className="text-[13.5px] leading-relaxed text-muted">
+                                        Preço-base: {brl(base.monthlyCents)}/mês ({base.months} meses).
+                                    </p>
+                                    <p className="mt-1 text-[13.5px] leading-relaxed text-muted">
+                                        Em {best.months} meses, economia de{" "}
+                                        <span className="font-semibold text-brand-soft">{brl(best.savingsCents)}</span>.
+                                    </p>
+                                </div>
 
-                            <TableFrame label={`Preços do plano ${plan.name} por período`}>
-                                <table className="w-full min-w-[520px] border-collapse text-left">
-                                    <caption className="sr-only">Plano {plan.name}: preços por período</caption>
-                                    <thead className="bg-brand">
-                                        <tr>
-                                            <th scope="col" className={TH}>Prazo</th>
-                                            <th scope="col" className={`${TH} text-right`}>Equivalente/mês</th>
-                                            <th scope="col" className={`${TH} text-right`}>Total do período</th>
-                                            <th scope="col" className={`${TH} text-right`}>Economia vs. preço-base</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {plan.prices.map((price) => (
-                                            <tr key={price.months} className={ROW}>
-                                                <th scope="row" className={`${TD} font-semibold text-white`}>
-                                                    {price.months} meses
-                                                </th>
-                                                <td className={`${TD} text-right text-white`}>{brl(price.monthlyCents)}</td>
-                                                <td className={`${TD} text-right text-muted`}>{brl(price.totalCents)}</td>
-                                                <td
-                                                    className={`${TD} text-right ${price.savingsCents > 0 ? "font-semibold text-brand-soft" : "text-muted"}`}
-                                                >
-                                                    {brl(price.savingsCents)}
-                                                </td>
+                                <TableFrame label={`Preços do plano ${plan.name} por período`}>
+                                    <table className="w-full min-w-[520px] border-collapse text-left">
+                                        <caption className="sr-only">Plano {plan.name}: preços por período</caption>
+                                        <thead className="bg-brand">
+                                            <tr>
+                                                <th scope="col" className={TH}>Prazo</th>
+                                                <th scope="col" className={`${TH} text-right`}>Equivalente/mês</th>
+                                                <th scope="col" className={`${TH} text-right`}>Total do período</th>
+                                                <th scope="col" className={`${TH} text-right`}>Economia vs. preço-base</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </TableFrame>
-                        </div>
-                    );
-                })}
-            </div>
+                                        </thead>
+                                        <tbody>
+                                            {plan.prices.map((price) => (
+                                                <tr key={price.months} className={ROW}>
+                                                    <th scope="row" className={`${TD} font-semibold text-white`}>
+                                                        {price.months} meses
+                                                    </th>
+                                                    <td className={`${TD} text-right text-white`}>{brl(price.monthlyCents)}</td>
+                                                    <td className={`${TD} text-right text-muted`}>{brl(price.totalCents)}</td>
+                                                    <td
+                                                        className={`${TD} text-right ${price.savingsCents > 0 ? "font-semibold text-brand-soft" : "text-muted"}`}
+                                                    >
+                                                        {brl(price.savingsCents)}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </TableFrame>
+                            </div>
+                        );
+                    })}
+                </div>
+            </details>
         </div>
     );
 }
