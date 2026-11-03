@@ -47,7 +47,10 @@ export interface PricingPlan
 {
     id: number | null;
     name: string;
+    /** Posicionamento do plano, em uma frase */
     description: string;
+    /** Para quem é e qual benefício o plano entrega */
+    idealFor: string;
     /** Valor sem o "R$" (ex.: "79,90") */
     price: string;
     priceCents: number;
@@ -71,7 +74,7 @@ const POPULAR_CARD =
 /**
  * Estilo/rótulo por plano. O que não estiver aqui cai no padrão.
  *
- * `popular`: recebe o destaque azul e o selo "Mais escolhido".
+ * `popular`: recebe o destaque azul e o selo "Recomendado".
  */
 const PRESENTATION: Record<string, { popular?: boolean }> = {
     Scale: { popular: true },
@@ -79,10 +82,18 @@ const PRESENTATION: Record<string, { popular?: boolean }> = {
 };
 
 const DESCRIPTIONS: Record<string, string> = {
-    Starter: "Ideal para pequenos negócios que estão começando.",
-    Scale: "Perfeito para empresas em crescimento que precisam de mais recursos.",
-    Enterprise: "Para grandes equipes que precisam de máxima performance.",
+    Starter: "Comece a organizar seus atendimentos e clientes.",
+    Scale: "Tenha mais controle sobre sua operação comercial.",
+    Enterprise: "Amplie sua operação com flexibilidade e recursos avançados.",
 };
+
+const IDEAL_FOR: Record<string, string> = {
+    Starter: "Para quem atende sozinho ou em dupla e quer tirar o WhatsApp do improviso: conversas, leads e agenda no mesmo lugar.",
+    Scale: "Para equipes de até 5 pessoas que precisam enxergar resultados no dashboard e ganhar tempo com automações de atendimento.",
+    Enterprise: "Para operações maiores, sem limite de usuários, que precisam de integrações personalizadas e suporte dedicado.",
+};
+
+const BUTTON_TEXT = "Começar 7 dias grátis";
 
 const PLAN_FEATURES: Record<string, string[]> = {
     Starter: [
@@ -135,12 +146,13 @@ function toPricingPlan(plan: ApiPlan, cents: number): PricingPlan
         id: plan.id,
         name,
         description: DESCRIPTIONS[name] ?? plan.description ?? "",
+        idealFor: IDEAL_FOR[name] ?? "",
         price: formatPrice(cents),
         priceCents: cents,
         period: intervalDays === 365 ? "/ano" : "/mês",
         pricePrefix: undefined,
         features: PLAN_FEATURES[name] ?? plan.features ?? [],
-        buttonText: "Começar agora",
+        buttonText: BUTTON_TEXT,
         buttonStyle: popular ? BLUE_BUTTON : OUTLINE_BUTTON,
         cardStyle: popular ? POPULAR_CARD : PLAIN_CARD,
         popular,
@@ -157,6 +169,7 @@ export const FALLBACK_PLANS: PricingPlan[] = [
         id: null,
         name: "Starter",
         description: DESCRIPTIONS.Starter,
+        idealFor: IDEAL_FOR.Starter,
         price: "79,90",
         priceCents: 7990,
         period: "/mês",
@@ -167,7 +180,7 @@ export const FALLBACK_PLANS: PricingPlan[] = [
             "Até 2 usuários",
             "Suporte por e-mail",
         ],
-        buttonText: "Começar agora",
+        buttonText: BUTTON_TEXT,
         buttonStyle: OUTLINE_BUTTON,
         cardStyle: PLAIN_CARD,
         popular: false,
@@ -177,6 +190,7 @@ export const FALLBACK_PLANS: PricingPlan[] = [
         id: null,
         name: "Scale",
         description: DESCRIPTIONS.Scale,
+        idealFor: IDEAL_FOR.Scale,
         price: "119,90",
         priceCents: 11990,
         period: "/mês",
@@ -187,7 +201,7 @@ export const FALLBACK_PLANS: PricingPlan[] = [
             "Até 5 usuários",
             "Suporte prioritário",
         ],
-        buttonText: "Começar agora",
+        buttonText: BUTTON_TEXT,
         buttonStyle: BLUE_BUTTON,
         cardStyle: POPULAR_CARD,
         popular: true,
@@ -197,6 +211,7 @@ export const FALLBACK_PLANS: PricingPlan[] = [
         id: null,
         name: "Enterprise",
         description: DESCRIPTIONS.Enterprise,
+        idealFor: IDEAL_FOR.Enterprise,
         price: "249,90",
         priceCents: 24990,
         period: "/mês",
@@ -207,7 +222,7 @@ export const FALLBACK_PLANS: PricingPlan[] = [
             "Suporte dedicado",
             "Acesso a recursos avançados",
         ],
-        buttonText: "Começar agora",
+        buttonText: BUTTON_TEXT,
         buttonStyle: OUTLINE_BUTTON,
         cardStyle: PLAIN_CARD,
         popular: false,

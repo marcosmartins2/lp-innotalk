@@ -11,7 +11,7 @@ const chartBars = [
 
 export default function DashboardPreview() {
     return (
-        <div className="relative mx-auto w-full max-w-[724px] pb-6 pt-3 sm:pb-8 lg:mx-0 lg:self-start lg:translate-y-[-39px] lg:pb-6">
+        <div className="relative mx-auto w-full max-w-[724px] pb-6 pt-3 sm:pb-8 lg:mx-0 lg:pb-6">
             <div className="relative grid min-h-[454px] grid-cols-[56px_minmax(0,1fr)] overflow-hidden rounded-[16px] border border-line bg-graphite text-white shadow-[0_30px_70px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(37,99,235,0.08)] lg:min-h-[514px] lg:grid-cols-[170px_minmax(0,1fr)]">
                 <aside className="border-r border-white/[0.07] bg-[#0d0d12] px-3 py-5 sm:px-4">
                     <div className="mb-7 flex items-center gap-2">
@@ -34,7 +34,7 @@ export default function DashboardPreview() {
                 <div className="min-w-0 p-3 sm:p-5">
                     <div className="mb-4 flex items-start justify-between gap-2">
                         <div>
-                            <h2 className="text-[15px] font-bold leading-tight sm:text-[17px]">Painel</h2>
+                            <p className="text-[15px] font-bold leading-tight sm:text-[17px]">Painel</p>
                             <p className="mt-1 text-[9px] text-slate-400 sm:text-[10px]">Visão geral do seu atendimento</p>
                         </div>
                         <span className="whitespace-nowrap rounded-md border border-line bg-white/[0.04] px-2 py-1.5 text-[8px] text-muted sm:px-3 sm:text-[9px]">Últimos 7 dias⌄</span>
@@ -82,6 +82,7 @@ export default function DashboardPreview() {
                 <span><strong className="block">Novo lead recebido</strong><span className="text-slate-400">Rafael Souza · WhatsApp</span></span>
                 <span className="ml-2 h-2 w-2 rounded-full bg-emerald-400" />
             </div>
+            <p className="absolute -bottom-7 right-0 text-[11px] text-zinc-500 sm:-bottom-6">Interface ilustrativa · dados de exemplo</p>
         </div>
     );
 }

@@ -12,12 +12,36 @@ import { ChevronIcon } from "@/components/icons";
  */
 const faqs = [
     {
-        question: "O que é a InnoTalk?",
-        answer: "A InnoTalk é um CRM que centraliza o atendimento pelo WhatsApp, organiza seus leads e funis de venda, integra a agenda ao Google Calendar e reúne métricas de atendimento em um dashboard. É indicada para empresas, profissionais autônomos e equipes de atendimento.",
+        question: "Como funciona a integração com o WhatsApp?",
+        answer: "Você conecta o número de WhatsApp da sua empresa à InnoTalk e passa a receber e responder as conversas dentro da plataforma, por meio de APIs autorizadas. Cada conversa fica vinculada ao contato, com etiquetas, status e histórico, para que qualquer pessoa da equipe consiga continuar o atendimento.",
     },
     {
-        question: "Como funciona a integração com o WhatsApp?",
-        answer: "Você conecta o número de WhatsApp da sua empresa à InnoTalk e passa a receber e responder as conversas dentro da plataforma, por meio de APIs autorizadas. As conversas ficam vinculadas ao contato, com etiquetas, status e histórico de atendimento.",
+        question: "Preciso instalar algum programa?",
+        answer: "Não. A InnoTalk funciona pelo navegador: você cria sua conta, entra em crm.innotalk.com.br com seu login e conecta o WhatsApp da empresa. Não é preciso instalar nada no computador da equipe.",
+    },
+    {
+        question: "Posso ter vários atendentes?",
+        answer: "Sim. A plataforma tem perfis de acesso diferentes, como Dono/Administrador e Atendente, cada um com permissões próprias. O plano Starter inclui até 2 usuários, o Scale até 5 e o Enterprise tem usuários ilimitados.",
+    },
+    {
+        question: "Como funciona o teste gratuito?",
+        answer: "Todos os planos começam com 7 dias grátis, sem cartão de crédito. Você cria a conta, conecta o WhatsApp e usa a InnoTalk na rotina real da sua equipe. O pagamento só acontece quando o teste acabar, se você decidir continuar.",
+    },
+    {
+        question: "Posso cancelar quando quiser?",
+        answer: "Sim. Você pode solicitar o cancelamento da sua conta a qualquer momento. As condições completas estão nos nossos Termos de Uso.",
+    },
+    {
+        question: "Meus dados estão seguros?",
+        answer: "A InnoTalk trata os dados em conformidade com a LGPD e adota medidas como criptografia, controle de acesso por perfil de usuário, monitoramento de atividades e ambientes seguros de hospedagem. Não vendemos, alugamos nem compartilhamos dados pessoais para fins comerciais. Os detalhes estão na nossa Política de Privacidade.",
+    },
+    {
+        question: "Como funciona a contratação?",
+        answer: "Você escolhe o plano na seção de planos, cria sua conta no CRM e conclui o pagamento por PIX. Também é possível contratar por períodos de 6, 9, 12 ou 24 meses, com valor mensal menor nos prazos mais longos; a tabela completa está logo abaixo dos planos.",
+    },
+    {
+        question: "O que preciso para começar?",
+        answer: "Um número de WhatsApp para atender seus clientes e, se quiser usar a agenda integrada, uma conta Google. Depois é só escolher um plano, criar sua conta e conectar o WhatsApp. Se precisar de ajuda na configuração inicial, nossa equipe de suporte orienta você.",
     },
     {
         question: "Como a InnoTalk ajuda a organizar meus leads?",
@@ -26,22 +50,6 @@ const faqs = [
     {
         question: "Como funciona a agenda integrada?",
         answer: "Ao conectar sua conta Google, os agendamentos e tarefas criados no CRM são sincronizados com o Google Calendar. A InnoTalk acessa apenas os eventos da sua agenda (título, descrição, data e horário) para exibir, criar e atualizar compromissos. Você pode desconectar a qualquer momento na InnoTalk ou nas configurações da sua conta Google.",
-    },
-    {
-        question: "O que preciso para começar?",
-        answer: "Um número de WhatsApp para atender seus clientes e, se quiser usar a agenda integrada, uma conta Google. Depois é só escolher um plano, criar sua conta e conectar o WhatsApp. Se precisar de ajuda na configuração inicial, nossa equipe de suporte orienta você.",
-    },
-    {
-        question: "Posso ter mais de um atendente?",
-        answer: "Sim. A plataforma tem perfis de acesso diferentes, como Dono/Administrador e Atendente, cada um com permissões próprias. A quantidade de usuários varia conforme o plano escolhido — confira os detalhes na seção de planos.",
-    },
-    {
-        question: "Como funcionam os planos e o pagamento?",
-        answer: "Você escolhe o plano na seção de planos, cria sua conta no CRM e conclui o pagamento por PIX. Você pode solicitar o cancelamento da conta a qualquer momento.",
-    },
-    {
-        question: "Meus dados estão seguros?",
-        answer: "A InnoTalk trata os dados em conformidade com a LGPD e adota medidas como criptografia, controle de acesso por perfil de usuário, monitoramento de atividades e ambientes seguros de hospedagem. Não vendemos, alugamos nem compartilhamos dados pessoais para fins comerciais. Os detalhes estão na nossa Política de Privacidade.",
     },
     {
         question: "Como entro em contato com o suporte?",
@@ -73,13 +81,27 @@ export default function FAQ()
 
     return (
         <section id="duvidas" aria-labelledby="duvidas-titulo" className="scroll-mt-[72px] border-t border-line bg-ink px-6 py-20 sm:py-24 lg:py-28">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "FAQPage",
+                        mainEntity: faqs.map((faq) => ({
+                            "@type": "Question",
+                            name: faq.question,
+                            acceptedAnswer: { "@type": "Answer", text: faq.answer },
+                        })),
+                    }),
+                }}
+            />
             <MotionConfig reducedMotion="user">
                 <div className="mx-auto grid max-w-[1240px] gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:gap-20">
                     <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={viewportConfig} className="lg:sticky lg:top-[112px] lg:self-start">
                         <p className="mb-3 text-[12px] font-extrabold tracking-[0.08em] text-brand-soft">DÚVIDAS</p>
                         <h2 id="duvidas-titulo" className="mb-4 text-[30px] font-extrabold leading-[1.15] tracking-[-0.02em] text-white sm:text-[40px]">Perguntas frequentes</h2>
                         <p className="mb-8 max-w-[360px] text-[15px] leading-relaxed text-zinc-400">
-                            Tudo o que você precisa saber sobre a InnoTalk. Não encontrou sua resposta?{" "}
+                            As respostas para as dúvidas mais comuns antes de começar o teste. Não encontrou o que procurava?{" "}
                             <a href="#contato" className="font-semibold text-brand-soft underline-offset-4 hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-soft">Fale com a gente</a>.
                         </p>
                         <button
