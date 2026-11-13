@@ -24,7 +24,7 @@ const TD = "whitespace-nowrap px-4 py-3 text-[14px] tabular-nums sm:px-5";
 const ROW = "border-t border-line/60 odd:bg-graphite even:bg-graphite-2";
 
 /**
- * Tabelas de preço por período de contratação (6, 9, 12 e 24 meses).
+ * Tabelas de preço por período de contratação (6, 12 e 24 meses).
  * Renderizada dentro da seção #planos, abaixo dos cards.
  */
 export default function PeriodPricing()
@@ -76,6 +76,15 @@ export default function PeriodPricing()
                 plano.
             </p>
 
+            {PERIOD_PRICING.filter((plan) => plan.oneMonthCents).map((plan) => (
+                <p key={plan.name} className="mx-auto mt-2 max-w-[760px] text-center text-[13.5px] leading-relaxed text-muted">
+                    No plano {plan.name}, a contratação de 1 mês sai por{" "}
+                    <span className="font-semibold text-white">{brl(plan.oneMonthCents!)}</span>. O valor promocional
+                    de {brl(plan.prices[0].monthlyCents)}/mês vale a partir da contratação de {plan.prices[0].months}{" "}
+                    meses.
+                </p>
+            ))}
+
             {/* Detalhamento por plano */}
             <details className="group mt-10 rounded-[12px] border border-line bg-graphite/40">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[12px] px-5 py-4 text-[15px] font-bold text-white transition-colors hover:bg-white/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-soft [&::-webkit-details-marker]:hidden">
@@ -95,6 +104,11 @@ export default function PeriodPricing()
                                     <p className="text-[13.5px] leading-relaxed text-muted">
                                         Preço-base: {brl(base.monthlyCents)}/mês ({base.months} meses).
                                     </p>
+                                    {plan.oneMonthCents && (
+                                        <p className="mt-1 text-[13.5px] leading-relaxed text-muted">
+                                            Contratação de 1 mês: {brl(plan.oneMonthCents)}/mês.
+                                        </p>
+                                    )}
                                     <p className="mt-1 text-[13.5px] leading-relaxed text-muted">
                                         Em {best.months} meses, economia de{" "}
                                         <span className="font-semibold text-brand-soft">{brl(best.savingsCents)}</span>.
